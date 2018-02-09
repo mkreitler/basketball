@@ -1,0 +1,407 @@
+fileFormatVersion: 2
+guid: 2c345b224dceab546a1c1db75ffd3b9e
+timeCreated: 1514363261
+licenseType: Store
+SketchUpImporter:
+  generateBackFace: 0
+  mergeCoplanarFaces: 0
+  selectedNodes: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c000000
+  assetHash:
+    serializedVersion: 2
+    Hash: 93714628783f1255c41dcf7a2595cf21
+  longitude: -105.242139
+  latitude: 40.018309
+  northCorrection: -0
+  fileUnit: 0
+  sketchUpImportData:
+    defaultCamera:
+      position: {x: 45.446224, y: 1727.2408, z: -20.838037}
+      lookAt: {x: 45.446224, y: -0.7234254, z: -20.838037}
+      up: {x: 0, y: 0, z: 1}
+      fov: 45
+      aspectRatio: 0
+      orthoSize: 42899.613
+      isPerspective: 0
+    scenes: []
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: 2_Lane_Turn
+    100002: 4_Lane_Turn
+    100004: ConcreteSlab
+    100006: Crossing_2_4_Lane
+    100008: Crossing_2_6_Lane
+    100010: Crossing_2_Lane_All
+    100012: Crossing_4_6_Lane
+    100014: Crossing_4_Lane_All
+    100016: Crossing_6_Lane_All
+    100018: Divider_Grass
+    100020: Divider_Grass_Node
+    100022: Divider_Grass_Node 1
+    100024: Grass
+    100026: Group 103
+    100028: Group 107
+    100030: Parking_Lot_1
+    100032: Parking_Lot_2
+    100034: //RootNode
+    100036: Road_Lane_2_4
+    100038: Road_Lane_4_6
+    100040: Road_Section_1_Lane_SidePark
+    100042: Road_Section_1_Lane_SidePark_Node
+    100044: Road_Section_1_Lane_SidePark_Node 1
+    100046: Road_Section_2_Lane
+    100048: Road_Section_2_Lane_Cracked
+    100050: Road_Section_4_5_Lane_Hatched
+    100052: Road_Section_4_5_Lane_Hatched_Node
+    100054: Road_Section_4_5_Lane_Hatched_Node 1
+    100056: Road_Section_4_Lane
+    100058: Road_Section_4_Lane_Cracked
+    100060: Road_Section_4_Lane_Hatched
+    100062: Road_Section_4_Lane_Hatched_Node
+    100064: Road_Section_4_Lane_Hatched_Node 1
+    100066: Road_Section_4_Lane_Wide
+    100068: Road_Section_4_Lane_Wide 1
+    100070: Road_Section_4_Lane_Wide_Node
+    100072: Road_Section_4_Lane_Wide_Node 1
+    100074: Road_Section_4_Lane_Wide_Node 2
+    100076: Road_Section_4_Lane_Wide_Node 3
+    100078: Road_Section_5_Lane
+    100080: Road_Section_6_Lane
+    100082: Road_Section_6_Lane_Hatched
+    100084: Road_Section_6_Lane_Hatched_Node
+    100086: Road_Section_6_Lane_Hatched_Node 1
+    100088: T_Point_2_4_Lane
+    100090: T_Point_2_6_Lane
+    100092: T_Point_2_Lane_All
+    100094: T_Point_4_2_Lane
+    100096: T_Point_4_6_Lane
+    100098: T_Point_4_Lane_All
+    100100: T_Point_6_2_Lane
+    100102: T_Point_6_4_Lane
+    100104: T_Point_6_Lane_All
+    100106: Turn_4_Lane_Hatched
+    100108: Turn_6_Lane
+    400000: 2_Lane_Turn
+    400002: 4_Lane_Turn
+    400004: ConcreteSlab
+    400006: Crossing_2_4_Lane
+    400008: Crossing_2_6_Lane
+    400010: Crossing_2_Lane_All
+    400012: Crossing_4_6_Lane
+    400014: Crossing_4_Lane_All
+    400016: Crossing_6_Lane_All
+    400018: Divider_Grass
+    400020: Divider_Grass_Node
+    400022: Divider_Grass_Node 1
+    400024: Grass
+    400026: Group 103
+    400028: Group 107
+    400030: Parking_Lot_1
+    400032: Parking_Lot_2
+    400034: //RootNode
+    400036: Road_Lane_2_4
+    400038: Road_Lane_4_6
+    400040: Road_Section_1_Lane_SidePark
+    400042: Road_Section_1_Lane_SidePark_Node
+    400044: Road_Section_1_Lane_SidePark_Node 1
+    400046: Road_Section_2_Lane
+    400048: Road_Section_2_Lane_Cracked
+    400050: Road_Section_4_5_Lane_Hatched
+    400052: Road_Section_4_5_Lane_Hatched_Node
+    400054: Road_Section_4_5_Lane_Hatched_Node 1
+    400056: Road_Section_4_Lane
+    400058: Road_Section_4_Lane_Cracked
+    400060: Road_Section_4_Lane_Hatched
+    400062: Road_Section_4_Lane_Hatched_Node
+    400064: Road_Section_4_Lane_Hatched_Node 1
+    400066: Road_Section_4_Lane_Wide
+    400068: Road_Section_4_Lane_Wide 1
+    400070: Road_Section_4_Lane_Wide_Node
+    400072: Road_Section_4_Lane_Wide_Node 1
+    400074: Road_Section_4_Lane_Wide_Node 2
+    400076: Road_Section_4_Lane_Wide_Node 3
+    400078: Road_Section_5_Lane
+    400080: Road_Section_6_Lane
+    400082: Road_Section_6_Lane_Hatched
+    400084: Road_Section_6_Lane_Hatched_Node
+    400086: Road_Section_6_Lane_Hatched_Node 1
+    400088: T_Point_2_4_Lane
+    400090: T_Point_2_6_Lane
+    400092: T_Point_2_Lane_All
+    400094: T_Point_4_2_Lane
+    400096: T_Point_4_6_Lane
+    400098: T_Point_4_Lane_All
+    400100: T_Point_6_2_Lane
+    400102: T_Point_6_4_Lane
+    400104: T_Point_6_Lane_All
+    400106: Turn_4_Lane_Hatched
+    400108: Turn_6_Lane
+    2300000: 2_Lane_Turn
+    2300002: 4_Lane_Turn
+    2300004: ConcreteSlab
+    2300006: Crossing_2_4_Lane
+    2300008: Crossing_2_6_Lane
+    2300010: Crossing_2_Lane_All
+    2300012: Crossing_4_6_Lane
+    2300014: Crossing_4_Lane_All
+    2300016: Crossing_6_Lane_All
+    2300018: Divider_Grass
+    2300020: Divider_Grass_Node
+    2300022: Divider_Grass_Node 1
+    2300024: Grass
+    2300026: Group 103
+    2300028: Group 107
+    2300030: Parking_Lot_1
+    2300032: Parking_Lot_2
+    2300034: Road_Lane_2_4
+    2300036: Road_Lane_4_6
+    2300038: Road_Section_1_Lane_SidePark
+    2300040: Road_Section_1_Lane_SidePark_Node
+    2300042: Road_Section_1_Lane_SidePark_Node 1
+    2300044: Road_Section_2_Lane
+    2300046: Road_Section_2_Lane_Cracked
+    2300048: Road_Section_4_5_Lane_Hatched
+    2300050: Road_Section_4_5_Lane_Hatched_Node
+    2300052: Road_Section_4_5_Lane_Hatched_Node 1
+    2300054: Road_Section_4_Lane
+    2300056: Road_Section_4_Lane_Cracked
+    2300058: Road_Section_4_Lane_Hatched
+    2300060: Road_Section_4_Lane_Hatched_Node
+    2300062: Road_Section_4_Lane_Hatched_Node 1
+    2300064: Road_Section_4_Lane_Wide
+    2300066: Road_Section_4_Lane_Wide 1
+    2300068: Road_Section_4_Lane_Wide_Node
+    2300070: Road_Section_4_Lane_Wide_Node 1
+    2300072: Road_Section_4_Lane_Wide_Node 2
+    2300074: Road_Section_4_Lane_Wide_Node 3
+    2300076: Road_Section_5_Lane
+    2300078: Road_Section_6_Lane
+    2300080: Road_Section_6_Lane_Hatched
+    2300082: Road_Section_6_Lane_Hatched_Node
+    2300084: Road_Section_6_Lane_Hatched_Node 1
+    2300086: T_Point_2_4_Lane
+    2300088: T_Point_2_6_Lane
+    2300090: T_Point_2_Lane_All
+    2300092: T_Point_4_2_Lane
+    2300094: T_Point_4_6_Lane
+    2300096: T_Point_4_Lane_All
+    2300098: T_Point_6_2_Lane
+    2300100: T_Point_6_4_Lane
+    2300102: T_Point_6_Lane_All
+    2300104: Turn_4_Lane_Hatched
+    2300106: Turn_6_Lane
+    3300000: 2_Lane_Turn
+    3300002: 4_Lane_Turn
+    3300004: ConcreteSlab
+    3300006: Crossing_2_4_Lane
+    3300008: Crossing_2_6_Lane
+    3300010: Crossing_2_Lane_All
+    3300012: Crossing_4_6_Lane
+    3300014: Crossing_4_Lane_All
+    3300016: Crossing_6_Lane_All
+    3300018: Divider_Grass
+    3300020: Divider_Grass_Node
+    3300022: Divider_Grass_Node 1
+    3300024: Grass
+    3300026: Group 103
+    3300028: Group 107
+    3300030: Parking_Lot_1
+    3300032: Parking_Lot_2
+    3300034: Road_Lane_2_4
+    3300036: Road_Lane_4_6
+    3300038: Road_Section_1_Lane_SidePark
+    3300040: Road_Section_1_Lane_SidePark_Node
+    3300042: Road_Section_1_Lane_SidePark_Node 1
+    3300044: Road_Section_2_Lane
+    3300046: Road_Section_2_Lane_Cracked
+    3300048: Road_Section_4_5_Lane_Hatched
+    3300050: Road_Section_4_5_Lane_Hatched_Node
+    3300052: Road_Section_4_5_Lane_Hatched_Node 1
+    3300054: Road_Section_4_Lane
+    3300056: Road_Section_4_Lane_Cracked
+    3300058: Road_Section_4_Lane_Hatched
+    3300060: Road_Section_4_Lane_Hatched_Node
+    3300062: Road_Section_4_Lane_Hatched_Node 1
+    3300064: Road_Section_4_Lane_Wide
+    3300066: Road_Section_4_Lane_Wide 1
+    3300068: Road_Section_4_Lane_Wide_Node
+    3300070: Road_Section_4_Lane_Wide_Node 1
+    3300072: Road_Section_4_Lane_Wide_Node 2
+    3300074: Road_Section_4_Lane_Wide_Node 3
+    3300076: Road_Section_5_Lane
+    3300078: Road_Section_6_Lane
+    3300080: Road_Section_6_Lane_Hatched
+    3300082: Road_Section_6_Lane_Hatched_Node
+    3300084: Road_Section_6_Lane_Hatched_Node 1
+    3300086: T_Point_2_4_Lane
+    3300088: T_Point_2_6_Lane
+    3300090: T_Point_2_Lane_All
+    3300092: T_Point_4_2_Lane
+    3300094: T_Point_4_6_Lane
+    3300096: T_Point_4_Lane_All
+    3300098: T_Point_6_2_Lane
+    3300100: T_Point_6_4_Lane
+    3300102: T_Point_6_Lane_All
+    3300104: Turn_4_Lane_Hatched
+    3300106: Turn_6_Lane
+    4300000: Mesh Road_Section_2_Lane
+    4300002: Mesh Road_Section_4_Lane
+    4300004: Mesh Road_Lane_2_4
+    4300006: Mesh Road_Lane_4_6
+    4300008: Mesh Road_Section_6_Lane
+    4300010: Mesh Road_Section_1_Lane_SidePark_Node
+    4300012: Mesh Road_Section_1_Lane_SidePark
+    4300014: Mesh Road_Section_4_Lane_Hatched_Node
+    4300016: Mesh Road_Section_4_Lane_Hatched
+    4300018: Mesh Divider_Grass_Node
+    4300020: Mesh Divider_Grass
+    4300022: Mesh Road_Section_4_Lane_Wide_Node
+    4300024: Mesh Road_Section_4_Lane_Wide
+    4300026: Mesh Road_Section_2_Lane_Cracked
+    4300028: Mesh Road_Section_4_Lane_Cracked
+    4300030: Mesh Road_Section_6_Lane_Hatched_Node
+    4300032: Mesh Road_Section_6_Lane_Hatched
+    4300034: Mesh Road_Section_4_5_Lane_Hatched_Node
+    4300036: Mesh Road_Section_4_5_Lane_Hatched
+    4300038: Mesh Road_Section_5_Lane
+    4300040: Mesh Crossing_2_Lane_All
+    4300042: Mesh T_Point_2_Lane_All
+    4300044: Mesh 2_Lane_Turn
+    4300046: Mesh Crossing_2_4_Lane
+    4300048: Mesh T_Point_2_4_Lane
+    4300050: Mesh T_Point_4_2_Lane
+    4300052: Mesh Crossing_2_6_Lane
+    4300054: Mesh T_Point_2_6_Lane
+    4300056: Mesh T_Point_6_2_Lane
+    4300058: Mesh Crossing_4_Lane_All
+    4300060: Mesh T_Point_4_Lane_All
+    4300062: Mesh 4_Lane_Turn
+    4300064: Mesh Crossing_4_6_Lane
+    4300066: Mesh T_Point_4_6_Lane
+    4300068: Mesh Crossing_6_Lane_All
+    4300070: Mesh T_Point_6_Lane_All
+    4300072: Mesh Turn_6_Lane
+    4300074: Mesh Turn_4_Lane_Hatched
+    4300076: Mesh T_Point_6_4_Lane
+    4300078: Mesh ConcreteSlab
+    4300080: Mesh Grass
+    4300082: Mesh Parking_Lot_1
+    4300084: Mesh Group 103
+    4300086: Mesh Parking_Lot_2
+    6400000: 2_Lane_Turn
+    6400002: 4_Lane_Turn
+    6400004: ConcreteSlab
+    6400006: Crossing_2_4_Lane
+    6400008: Crossing_2_6_Lane
+    6400010: Crossing_2_Lane_All
+    6400012: Crossing_4_6_Lane
+    6400014: Crossing_4_Lane_All
+    6400016: Crossing_6_Lane_All
+    6400018: Divider_Grass
+    6400020: Divider_Grass_Node
+    6400022: Divider_Grass_Node 1
+    6400024: Grass
+    6400026: Group 103
+    6400028: Group 107
+    6400030: Parking_Lot_1
+    6400032: Parking_Lot_2
+    6400034: Road_Lane_2_4
+    6400036: Road_Lane_4_6
+    6400038: Road_Section_1_Lane_SidePark
+    6400040: Road_Section_1_Lane_SidePark_Node
+    6400042: Road_Section_1_Lane_SidePark_Node 1
+    6400044: Road_Section_2_Lane
+    6400046: Road_Section_2_Lane_Cracked
+    6400048: Road_Section_4_5_Lane_Hatched
+    6400050: Road_Section_4_5_Lane_Hatched_Node
+    6400052: Road_Section_4_5_Lane_Hatched_Node 1
+    6400054: Road_Section_4_Lane
+    6400056: Road_Section_4_Lane_Cracked
+    6400058: Road_Section_4_Lane_Hatched
+    6400060: Road_Section_4_Lane_Hatched_Node
+    6400062: Road_Section_4_Lane_Hatched_Node 1
+    6400064: Road_Section_4_Lane_Wide
+    6400066: Road_Section_4_Lane_Wide 1
+    6400068: Road_Section_4_Lane_Wide_Node
+    6400070: Road_Section_4_Lane_Wide_Node 1
+    6400072: Road_Section_4_Lane_Wide_Node 2
+    6400074: Road_Section_4_Lane_Wide_Node 3
+    6400076: Road_Section_5_Lane
+    6400078: Road_Section_6_Lane
+    6400080: Road_Section_6_Lane_Hatched
+    6400082: Road_Section_6_Lane_Hatched_Node
+    6400084: Road_Section_6_Lane_Hatched_Node 1
+    6400086: T_Point_2_4_Lane
+    6400088: T_Point_2_6_Lane
+    6400090: T_Point_2_Lane_All
+    6400092: T_Point_4_2_Lane
+    6400094: T_Point_4_6_Lane
+    6400096: T_Point_4_Lane_All
+    6400098: T_Point_6_2_Lane
+    6400100: T_Point_6_4_Lane
+    6400102: T_Point_6_Lane_All
+    6400104: Turn_4_Lane_Hatched
+    6400106: Turn_6_Lane
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.0254
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 1
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

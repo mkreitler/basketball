@@ -1,0 +1,19 @@
+CHANGES TO THE PREVIOUS VERSION (LOW POLY CITY (MOBILE OPTIMIZED 1.0) IN VERSION 2.0
+
+-Completely revamped the roads and textures. Now there are many small road components that are extremely tileable, with new textures
+
+-Added Dynamic Street Components (Game-Ready) assets that are destructable and fully working with LOD, including working traffic lights, street lights and other small components.
+
+-Trees are added with LOD
+
+-New Scripts added (TimeTransition.cs) and FlyCamera script converted to C# fom Js
+
+-Day/Night cycle added
+
+-2 new SkyBox added with a new SkyBox shader
+
+-Behind the scenes optimizations done
+
+-Tweaks and bugfixes done
+
+-Compatiblity for multiple Unity versions

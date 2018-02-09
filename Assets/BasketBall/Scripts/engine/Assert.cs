@@ -1,0 +1,22 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace thinkagaingames.com.engine {
+	public class Assert : MonoBehaviour {
+		// Types and Constants ////////////////////////////////////////////////////
+		// Editor Variables ///////////////////////////////////////////////////////
+		// Interface //////////////////////////////////////////////////////////////
+		public static void That(bool test, string message, GameObject obj = null) {
+#if UNITY_EDITOR
+			if (!test) {
+				message = obj != null ? obj.name + ": " + message : message;
+				throw new System.Exception(message);
+			}
+#endif
+		}
+		// Implementation /////////////////////////////////////////////////////////
+		// Interfaces /////////////////////////////////////////////////////////////
+		// Coroutines /////////////////////////////////////////////////////////////
+	}
+}
