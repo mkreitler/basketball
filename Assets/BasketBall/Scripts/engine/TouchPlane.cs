@@ -9,7 +9,7 @@ namespace thinkagaingames.com.engine {
 
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
-		private Camera worldCamera = null;
+		protected Camera worldCamera = null;
 
 		// Interface //////////////////////////////////////////////////////////////
 
@@ -35,13 +35,60 @@ namespace thinkagaingames.com.engine {
 			Vector3 vLowerLeft = resizedCamera.ViewportToWorldPoint(vViewportPoint);
 
 			Vector3 vNewScale = gameObject.transform.localScale;
-			vNewScale.x = vLowerRight.x - vLowerLeft.x;
-			vNewScale.y = vUpperRight.y - vLowerRight.y;
+			vNewScale.x = Mathf.Abs(vLowerRight.x - vLowerLeft.x);
+			vNewScale.y = Mathf.Abs(vUpperRight.y - vLowerRight.y);
+
+			worldExtentsVertical = vNewScale.y;
+			worldExtentsHorizontal = vNewScale.x;
 
 			gameObject.transform.localScale = vNewScale;
 		}
 
-		public void Update() {
+		public virtual void OnFlickStart(Vector2 vScreenPoint, Vector2 vViewportPoint) {
+			TrackingFlick = true;
+			this.vScreenPoint = vScreenPoint;
+		}
+
+		public virtual void OnFlickMove(Vector2 vScreenPoint, Vector2 vViewportPoint) {
+			if (TrackingFlick) {
+				this.vScreenPoint = vScreenPoint;
+			}
+		}
+
+		public virtual void OnFlickHold(Vector2 vScreenPoint, Vector2 vViewportPoint) {
+			if (TrackingFlick) {
+				this.vScreenPoint = vScreenPoint;
+			}
+		}
+
+		public virtual void OnFlickEnd(Vector2 vScreenPoint, Vector2 vViewportPoint) {
+			if (TrackingFlick) {
+				TrackingFlick = false;
+				this.vScreenPoint = vScreenPoint;
+			}
+		}
+
+		// Implementation /////////////////////////////////////////////////////////
+		private Ray ray = new Ray();
+
+		private bool TrackingFlick {get; set;}
+
+		private Vector2 vScreenPoint = Vector2.zero;
+
+		protected float worldExtentsVertical {get; set;}
+
+		protected float worldExtentsHorizontal {get; set;}
+
+		protected virtual void OnRayHit(RaycastHit hitInfo) {
+			// Override this in child classes to do something interesting.
+		}
+
+		// Interfaces /////////////////////////////////////////////////////////////
+		protected virtual void Awake() {
+			Assert.That(worldCamera != null, "Undefined world camera!", gameObject);
+		}
+
+		protected virtual void Update() {
 			if (TrackingFlick) {
 				int layerMask = 1 << LayerMask.NameToLayer("touchplane");
 
@@ -61,46 +108,6 @@ namespace thinkagaingames.com.engine {
 			}
 
 			Debug.DrawRay(ray.origin, ray.direction, Color.red);
-		}
-
-		public virtual void OnFlickStart(Vector2 vScreenPoint) {
-			TrackingFlick = true;
-			this.vScreenPoint = vScreenPoint;
-		}
-
-		public virtual void OnFlickMove(Vector2 vScreenPoint) {
-			if (TrackingFlick) {
-				this.vScreenPoint = vScreenPoint;
-			}
-		}
-
-		public virtual void OnFlickHold(Vector2 vScreenPoint) {
-			if (TrackingFlick) {
-				this.vScreenPoint = vScreenPoint;
-			}
-		}
-
-		public virtual void OnFlickEnd(Vector2 vScreenPoint) {
-			if (TrackingFlick) {
-				TrackingFlick = false;
-				this.vScreenPoint = vScreenPoint;
-			}
-		}
-
-		// Implementation /////////////////////////////////////////////////////////
-		private Ray ray = new Ray();
-
-		private bool TrackingFlick {get; set;}
-
-		private Vector2 vScreenPoint = Vector2.zero;
-
-		protected virtual void OnRayHit(RaycastHit hitInfo) {
-			// Override this in child classes to do something interesting.
-		}
-
-		// Interfaces /////////////////////////////////////////////////////////////
-		protected virtual void Awake() {
-			Assert.That(worldCamera != null, "Undefined world camera!", gameObject);
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////

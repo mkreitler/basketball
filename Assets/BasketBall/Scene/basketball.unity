@@ -359,6 +359,34 @@ Transform:
   m_PrefabParentObject: {fileID: 4000013128387280, guid: c00295225c912ef468523b6ab54849ff,
     type: 2}
   m_PrefabInternal: {fileID: 47875787}
+--- !u!1 &65582653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 65582654}
+  m_Layer: 0
+  m_Name: shotTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &65582654
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 65582653}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.00119}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1727140847}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &92561269
 Prefab:
   m_ObjectHideFlags: 0
@@ -966,7 +994,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 494864504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -379.3333, y: 569, z: 0}
+  m_LocalPosition: {x: -426.75, y: 569, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1495926871}
@@ -1353,7 +1381,7 @@ Transform:
   m_GameObject: {fileID: 669562705}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.076, y: 3.049, z: -10.26}
-  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 401270311}
   m_Father: {fileID: 1212512243}
@@ -1584,7 +1612,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 935856560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 279.3333, y: 569, z: 0}
+  m_LocalPosition: {x: 326.75, y: 569, z: 0}
   m_LocalScale: {x: 1.0003018, y: 1.0003018, z: 1.0003018}
   m_Children: []
   m_Father: {fileID: 1495926871}
@@ -1781,7 +1809,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1029703621}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 279.3333, y: -469, z: 0}
+  m_LocalPosition: {x: 326.75, y: -469, z: 0}
   m_LocalScale: {x: 1.0003018, y: 1.0003018, z: 1.0003018}
   m_Children: []
   m_Father: {fileID: 1495926871}
@@ -2667,12 +2695,12 @@ MonoBehaviour:
   resizeEvents:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1418814520}
         m_MethodName: Resize
-        m_Mode: 2
+        m_Mode: 0
         m_Arguments:
-          m_ObjectArgument: {fileID: 1240905761}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2933,6 +2961,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldCamera: {fileID: 1240905761}
   ball: {fileID: 669562711}
+  shots: []
+  shotIndex: -1
+  target: {fileID: 0}
+  flightTime: 1
+  rotationalImpulse: 0
 --- !u!1 &1480038997
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,7 +3142,7 @@ RectTransform:
   m_GameObject: {fileID: 1495926867}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -100, z: -100}
-  m_LocalScale: {x: 0.008787347, y: 0.008787347, z: 0.008787347}
+  m_LocalScale: {x: 0.008787346, y: 0.008787346, z: 0.008787346}
   m_Children:
   - {fileID: 1926578866}
   - {fileID: 494864505}
@@ -3139,7 +3172,7 @@ MonoBehaviour:
   onScreenInputBegin:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1418814520}
         m_MethodName: OnFlickStart
         m_Mode: 0
         m_Arguments:
@@ -3150,12 +3183,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: thinkagaingames.com.GAME_NAME.ScreenInputBegin, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: thinkagaingames.com.engine.ScreenInputBegin, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onScreenInputMove:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1418814520}
         m_MethodName: OnFlickMove
         m_Mode: 0
         m_Arguments:
@@ -3166,12 +3199,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: thinkagaingames.com.GAME_NAME.ScreenInputMove, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: thinkagaingames.com.engine.ScreenInputMove, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onScreenInputHold:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1418814520}
         m_MethodName: OnFlickHold
         m_Mode: 0
         m_Arguments:
@@ -3182,12 +3215,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: thinkagaingames.com.GAME_NAME.ScreenInputHold, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: thinkagaingames.com.engine.ScreenInputHold, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onScreenInputEnd:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1418814520}
         m_MethodName: OnFlickEnd
         m_Mode: 0
         m_Arguments:
@@ -3198,9 +3231,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: thinkagaingames.com.GAME_NAME.ScreenInputEnd, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: thinkagaingames.com.engine.ScreenInputEnd, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   moveTolerance: 10
+  uiCamera: {fileID: 1583802070}
 --- !u!1 &1528587975
 GameObject:
   m_ObjectHideFlags: 0
@@ -3587,6 +3621,7 @@ Transform:
   m_LocalScale: {x: 21.75, y: 21.749985, z: 49.99997}
   m_Children:
   - {fileID: 1590954361}
+  - {fileID: 65582654}
   m_Father: {fileID: 1656895829}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4327,7 +4362,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2107788538}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -379.3333, y: -469, z: 0}
+  m_LocalPosition: {x: -426.75, y: -469, z: 0}
   m_LocalScale: {x: 1.0003018, y: 1.0003018, z: 1.0003018}
   m_Children: []
   m_Father: {fileID: 1495926871}

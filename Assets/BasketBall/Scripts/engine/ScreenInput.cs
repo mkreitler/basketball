@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace thinkagaingames.com.GAME_NAME {
+namespace thinkagaingames.com.engine {
 	[System.Serializable]
-	public class ScreenInputBegin : UnityEvent<Vector2> {}
+	public class ScreenInputBegin : UnityEvent<Vector2, Vector2> {}
 
 	[System.Serializable]
-	public class ScreenInputMove : UnityEvent<Vector2> {}
+	public class ScreenInputMove : UnityEvent<Vector2, Vector2> {}
 
 	[System.Serializable]
-	public class ScreenInputHold : UnityEvent<Vector2> {}
+	public class ScreenInputHold : UnityEvent<Vector2, Vector2> {}
 
 	[System.Serializable]
-	public class ScreenInputEnd : UnityEvent<Vector2> {}
+	public class ScreenInputEnd : UnityEvent<Vector2, Vector2> {}
 
 	public class ScreenInput : MonoBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
@@ -36,40 +36,53 @@ namespace thinkagaingames.com.GAME_NAME {
 		[SerializeField]
 		private float moveTolerance = MOVE_TOLERANCE;
 
+		[SerializeField]
+		private Camera uiCamera = null;
+
 		// Interface //////////////////////////////////////////////////////////////
 		public Vector2 ContactPoint {get; set;}
 
 		public bool IsUserContact {get; set;}
+		
+		// Implementation /////////////////////////////////////////////////////////
+		public Vector2 ContactPointStart {get; set;}
+		public Vector2 ContactPointCurrent {get; set;}
 
-		public void Update() {
+		// Interfaces /////////////////////////////////////////////////////////////
+		protected virtual void Awake() {
+			Assert.That(uiCamera != null, "UI Camera not found!", gameObject);
+		}
+
+		protected virtual void Update() {
 			if (Input.touchCount > 0) {
 				ContactPoint = Input.touches[0].position;
+				Vector3 vScreenPoint = uiCamera.ScreenToViewportPoint(ContactPoint);
 
 				switch(Input.touches[0].phase) {
 					case TouchPhase.Began: {
 						if (onScreenInputBegin != null) {
-							onScreenInputBegin.Invoke(ContactPoint);
+							onScreenInputBegin.Invoke(ContactPoint, vScreenPoint);
 						}
 					}
 					break;
 
 					case TouchPhase.Moved: {
 						if (onScreenInputMove != null) {
-							onScreenInputMove.Invoke(ContactPoint);
+							onScreenInputMove.Invoke(ContactPoint, vScreenPoint);
 						}
 					}
 					break;
 
 					case TouchPhase.Stationary: {
 						if (onScreenInputHold != null) {
-							onScreenInputHold.Invoke(ContactPoint);
+							onScreenInputHold.Invoke(ContactPoint, vScreenPoint);
 						}
 					}
 					break;
 
 					case TouchPhase.Ended: case TouchPhase.Canceled: {
 						if (onScreenInputEnd != null) {
-							onScreenInputEnd.Invoke(ContactPoint);
+							onScreenInputEnd.Invoke(ContactPoint, vScreenPoint);
 						}
 					}
 					break;
@@ -79,9 +92,10 @@ namespace thinkagaingames.com.GAME_NAME {
 				if (!IsUserContact) {
 					IsUserContact = true;
 					ContactPoint = Input.mousePosition;
+					Vector3 vScreenPoint = uiCamera.ScreenToViewportPoint(ContactPoint);
 
 					if (onScreenInputBegin != null) {
-						onScreenInputBegin.Invoke(ContactPoint);
+						onScreenInputBegin.Invoke(ContactPoint, vScreenPoint);
 					}
 				}
 				else {
@@ -90,14 +104,16 @@ namespace thinkagaingames.com.GAME_NAME {
 
 					if (Mathf.Abs(dx) + Mathf.Abs(dy) > moveTolerance) {
 						ContactPoint = Input.mousePosition;
+						Vector3 vScreenPoint = uiCamera.ScreenToViewportPoint(ContactPoint);
 
 						if (onScreenInputMove != null) {
-							onScreenInputMove.Invoke(ContactPoint);
+							onScreenInputMove.Invoke(ContactPoint, vScreenPoint);
 						}
 					}
 					else {
 						if (onScreenInputHold != null) {
-							onScreenInputHold.Invoke(ContactPoint);
+							Vector3 vScreenPoint = uiCamera.ScreenToViewportPoint(ContactPoint);
+							onScreenInputHold.Invoke(ContactPoint, vScreenPoint);
 						}
 					}
 				}
@@ -110,16 +126,12 @@ namespace thinkagaingames.com.GAME_NAME {
 			else if (IsUserContact) {
 				IsUserContact = false;
 				if (onScreenInputEnd != null) {
-					onScreenInputEnd.Invoke(ContactPoint);
+					Vector3 vScreenPoint = uiCamera.ScreenToViewportPoint(ContactPoint);
+					onScreenInputEnd.Invoke(ContactPoint, vScreenPoint);
 				}
 			}
 		}
-		
-		// Implementation /////////////////////////////////////////////////////////
-		public Vector2 ContactPointStart {get; set;}
-		public Vector2 ContactPointCurrent {get; set;}
 
-		// Interfaces /////////////////////////////////////////////////////////////
 		// Coroutines /////////////////////////////////////////////////////////////
 	}
 }

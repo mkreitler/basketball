@@ -9,6 +9,18 @@ namespace thinkagaingames.com.basketball {
 		// Types and Constants ////////////////////////////////////////////////////
 		// Editor Variables ///////////////////////////////////////////////////////
 		// Interface //////////////////////////////////////////////////////////////
+		public float Mass {
+			get {
+				return RigidBody.mass;
+			}
+		}
+		
+		public Vector3 Position {
+			get {
+				return gameObject.transform.position;
+			}
+		}
+		
 		public void MakeKinematic() {
 			RigidBody.isKinematic = true;
 		}
@@ -29,9 +41,10 @@ namespace thinkagaingames.com.basketball {
 			MakeDynamic();
 		}
 
-		public void Launch(Vector3 vImpulse) {
+		public void Launch(Vector3 vImpulse, Vector3 vAngularImpulse) {
 			RigidBody.isKinematic = false;
 			RigidBody.AddForce(vImpulse, ForceMode.Impulse);
+			RigidBody.AddTorque(vAngularImpulse, ForceMode.Impulse);
 		}
 
 		// Implementation /////////////////////////////////////////////////////////
@@ -42,6 +55,11 @@ namespace thinkagaingames.com.basketball {
 			RigidBody = gameObject.GetComponent<Rigidbody>();
 			Assert.That(RigidBody != null, "Rigidbody component not found!", gameObject);
 		}
+
+		protected virtual void Update() {
+
+		}
+
 		// Coroutines /////////////////////////////////////////////////////////////
 	}
 }
