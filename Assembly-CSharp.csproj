@@ -51,7 +51,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BasketBall\Scripts\BallBasic.cs" />
+     <Compile Include="Assets\BasketBall\Scripts\engine\Assert.cs" />
+     <Compile Include="Assets\BasketBall\Scripts\engine\AutoResize.cs" />
+     <Compile Include="Assets\BasketBall\Scripts\engine\ScreenInput.cs" />
+     <Compile Include="Assets\BasketBall\Scripts\engine\Switchboard.cs" />
+     <Compile Include="Assets\BasketBall\Scripts\engine\TouchPlane.cs" />
+     <Compile Include="Assets\BasketBall\Scripts\FlickPlane.cs" />
      <Compile Include="Assets\BasketBall\Scripts\ScoreDetector.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\DynamicComponents\PackageAssets\Scripts_DSP\CameraFacingBillboard.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\DynamicComponents\PackageAssets\Scripts_DSP\CollisionDestroy.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\DynamicComponents\PackageAssets\Scripts_DSP\defaultAudio.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\DynamicComponents\PackageAssets\Scripts_DSP\lightBlink.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\DynamicComponents\PackageAssets\Scripts_DSP\lightsControl.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\DynamicComponents\PackageAssets\Scripts_DSP\TrafficLightControl.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\LowPolyCity2\PackageAssets\Scripts\FlyCamera.cs" />
+     <Compile Include="Assets\LowPolyCity2_PackageAssets\LowPolyCity2\PackageAssets\Scripts\TimeTransition.cs" />
+     <None Include="Assets\LowPolyCity2_PackageAssets\Readme.txt" />
+     <None Include="Assets\LowPolyCity2_PackageAssets\DynamicComponents\Readme.txt" />
+     <None Include="Assets\LowPolyCity2_PackageAssets\Changelog.txt" />
+     <None Include="Assets\LowPolyCity2_PackageAssets\LowPolyCity2\PackageAssets\SkyBox\Shader\SkyboxBlended.shader" />
  <Reference Include="UnityEngine.UIAutomation">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
  </Reference>

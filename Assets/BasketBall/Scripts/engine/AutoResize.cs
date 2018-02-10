@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace thinkagaingames.com.engine {
+	[System.Serializable]
+	public class ResizeEvent : UnityEvent<Camera> {
+	}
+
 	public class AutoResize : MonoBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
+
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
 		private float minWidth = 640;
@@ -23,6 +29,9 @@ namespace thinkagaingames.com.engine {
 
 		[SerializeField]
 		private float maxFov = 60f;
+
+		[SerializeField]
+		private ResizeEvent resizeEvents;
 
 		// Interface //////////////////////////////////////////////////////////////
 		public void OnEnable() {
@@ -59,6 +68,8 @@ namespace thinkagaingames.com.engine {
 			fovParam = Mathf.Clamp(fovParam, 0f, 1f);
 
 			Camera.fieldOfView = minFov + (maxFov - minFov) * fovParam;
+
+			resizeEvents.Invoke(Camera);
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
