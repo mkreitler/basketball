@@ -4,17 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-using thinkagaingames.com.engine;
+using com.thinkagaingames.engine;
 
-namespace thinkagaingames.com.basketball {
+namespace com.thinkagaingames.basketball {
 	public class FlickPlane : TouchPlane {
 		// Types and Constants ////////////////////////////////////////////////////
 		private const float EPSILON = 0.01f;
 
 		// Editor Variables ///////////////////////////////////////////////////////
-		[SerializeField]
-		private BallBasic ball = null;
-
 		[SerializeField]
 		private GameObject target = null;
 
@@ -71,6 +68,7 @@ namespace thinkagaingames.com.basketball {
 				ball.MakeDynamic();
 				ComputeFlightPath();
 				TrackingTouch = false;
+				Switchboard.Broadcast("RequestNextBall");
 			}
 		}
 
@@ -79,6 +77,7 @@ namespace thinkagaingames.com.basketball {
 		}
 
 		// Implementation /////////////////////////////////////////////////////////
+		protected BallBasic ball = null;
 		protected bool ResetVelocityTracker {get; set;}
 		protected Vector3 vLastBallPos {get; set;}
 		protected Vector3 vDisplacementAccumulator {get; set;}
@@ -169,17 +168,35 @@ namespace thinkagaingames.com.basketball {
 			}
 		}
 
+		private bool SetBall(object ballObj) {
+			GameObject goBall = ballObj as GameObject;
+			ball = goBall != null ? goBall.GetComponent<BallBasic>() : null;
+
+			Assert.That(ball != null, "Failed to set ball!", gameObject);
+
+			return ball != null;
+		}
+
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Awake() {
 			base.Awake();
 
-			Assert.That(ball != null, "Invalid ball object!", gameObject);
 			Assert.That(lowShotCurve != null, "Low shot curve not found!", gameObject);
 			Assert.That(highShotCurve != null, "High short curve not found!", gameObject);
 		}
 
 		protected override void Update() {
 			base.Update();
+		}
+
+		protected override void Start() {
+			base.Start();
+
+			Switchboard.AddListener("SetBall", SetBall);
+		}
+
+		public override void OnStartGame() {
+			Assert.That(ball != null, "Invalid ball object!", gameObject);
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////

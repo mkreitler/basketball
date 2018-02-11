@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace thinkagaingames.com.engine {
+namespace com.thinkagaingames.engine {
 	[System.Serializable]
 	public class ResizeEvent : UnityEvent<Camera> {
 	}

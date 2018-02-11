@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace thinkagaingames.com.engine {
+namespace com.thinkagaingames.engine {
 	public class Assert : MonoBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
 		// Editor Variables ///////////////////////////////////////////////////////

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace thinkagaingames.com.engine {
-	public class TouchPlane : MonoBehaviour {
+namespace com.thinkagaingames.engine {
+	public class TouchPlane : PausableBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
 		private const float MAX_RAYCAST_DIST	= 20000f;
 

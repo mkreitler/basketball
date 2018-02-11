@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace thinkagaingames.com.engine {
+namespace com.thinkagaingames.engine {
 	[System.Serializable]
 	public class ScreenInputBegin : UnityEvent<Vector2, Vector2> {}
 
@@ -23,7 +23,7 @@ namespace thinkagaingames.com.engine {
 		TOUCH
 	}
 
-	public class ScreenInput : MonoBehaviour {
+	public class ScreenInput : PausableBehaviour {
 		public static eInputMode Mode {get; set;}
 
 		// Types and Constants ////////////////////////////////////////////////////

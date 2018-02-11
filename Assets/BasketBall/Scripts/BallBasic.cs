@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using thinkagaingames.com.engine;
+using com.thinkagaingames.engine;
 
-namespace thinkagaingames.com.basketball {
-	public class BallBasic : MonoBehaviour {
+namespace com.thinkagaingames.basketball {
+	public class BallBasic : PausableBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
+		public enum eTypes {
+			BASIC
+		}
+
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
 		private float netDragLateral = 0.95f;

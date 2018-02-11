@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using thinkagaingames.com.engine;
 
-namespace thinkagaingames.com.basketball {
-	public class ScoreDetector : MonoBehaviour {
+using com.thinkagaingames.engine;
+
+namespace com.thinkagaingames.basketball {
+	public class ScoreDetector : PausableBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
-		private ParticleSystem scoreParticle = null;
+		private ParticleMaster scoreParticle = null;
 
 		// Interface //////////////////////////////////////////////////////////////
 		public void OnTriggerEnter(Collider collider) {
-			if (collider.gameObject != null && collider.gameObject.tag == "ball" && !WaitingForExit) {
+			if (collider.gameObject != null && collider.gameObject.tag.ToLower().Contains("ball_") && !WaitingForExit) {
 				WaitingForExit = true;
 				collider.gameObject.SendMessage("EnteredGoal", SendMessageOptions.DontRequireReceiver);
 
@@ -26,7 +27,7 @@ namespace thinkagaingames.com.basketball {
 		}
 
 		public void OnTriggerExit(Collider collider) {
-			if (collider.gameObject != null && collider.gameObject.tag == "ball") {
+			if (collider.gameObject != null && collider.gameObject.tag.ToLower().Contains("ball_")) {
 				WaitingForExit = false;
 				collider.gameObject.SendMessage("ExitedGoal", SendMessageOptions.DontRequireReceiver);
 
