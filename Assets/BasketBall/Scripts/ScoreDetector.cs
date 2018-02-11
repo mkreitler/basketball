@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using thinkagaingames.com.engine;
 
 namespace thinkagaingames.com.basketball {
 	public class ScoreDetector : MonoBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
 		// Editor Variables ///////////////////////////////////////////////////////
+		[SerializeField]
+		private ParticleSystem scoreParticle = null;
+
 		// Interface //////////////////////////////////////////////////////////////
 		public void OnTriggerEnter(Collider collider) {
 			if (collider.gameObject != null && collider.gameObject.tag == "ball" && !WaitingForExit) {
@@ -15,7 +19,7 @@ namespace thinkagaingames.com.basketball {
 				Rigidbody rbIncoming = collider.gameObject.GetComponent<Rigidbody>();
 
 				if (rbIncoming && Vector3.Dot(rbIncoming.velocity, Vector3.up) < 0f) {
-					EntryHeight = collider.gameObject.transform.position.z;
+					EntryHeight = collider.gameObject.transform.position.y;
 					EnteredFromAbove = true;
 				}
 			}
@@ -27,7 +31,7 @@ namespace thinkagaingames.com.basketball {
 				collider.gameObject.SendMessage("ExitedGoal", SendMessageOptions.DontRequireReceiver);
 
 				Rigidbody rbIncoming = collider.gameObject.GetComponent<Rigidbody>();
-				ExitHeight = collider.gameObject.transform.position.z;
+				ExitHeight = collider.gameObject.transform.position.y;
 
 				if (rbIncoming && Vector3.Dot(rbIncoming.velocity, Vector3.up) < 0f && ExitHeight < EntryHeight) {
 					Score();
@@ -45,10 +49,13 @@ namespace thinkagaingames.com.basketball {
 		private bool WaitingForExit {get; set;}
 
 		private void Score() {
-			Debug.Log(">>> SCORE !!! <<<");
+			scoreParticle.Play();
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
+		protected void Awake() {
+			Assert.That(scoreParticle != null, "Score particle system not found!", gameObject);
+		}
 		// Coroutines /////////////////////////////////////////////////////////////
 	}
 }

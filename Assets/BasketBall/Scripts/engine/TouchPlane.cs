@@ -69,7 +69,7 @@ namespace thinkagaingames.com.engine {
 		}
 
 		// Implementation /////////////////////////////////////////////////////////
-		private Ray ray = new Ray();
+		protected Ray ray = new Ray();
 
 		private bool TrackingFlick {get; set;}
 

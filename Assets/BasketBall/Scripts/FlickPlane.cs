@@ -9,6 +9,7 @@ using thinkagaingames.com.engine;
 namespace thinkagaingames.com.basketball {
 	public class FlickPlane : TouchPlane {
 		// Types and Constants ////////////////////////////////////////////////////
+		private const float EPSILON = 0.01f;
 
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
@@ -18,10 +19,37 @@ namespace thinkagaingames.com.basketball {
 		private GameObject target = null;
 
 		[SerializeField]
-		private float flightTime = 1f;
+		private GameObject targetLow = null;
 
 		[SerializeField]
+		private GameObject targetHigh = null;
+
+		[SerializeField]
+		private float flightTime = 1f;
+		
+		[SerializeField]
 		private float rotationalImpulse = 0f;
+
+		[SerializeField]
+		private float lowShotThreshold = 0.3f;
+		
+		[SerializeField]
+		private float highShotThreshold = 0.6f;
+
+		[SerializeField]
+		private AnimationCurve lowShotCurve = null;
+
+		[SerializeField]
+		private AnimationCurve highShotCurve = null;
+
+		[SerializeField]
+		private float driftLeftThreshold = 0.015f;
+
+		[SerializeField]
+		private float driftRightThreshold = 0.4f;
+
+		[SerializeField]
+		private float lateralDriftScalar = 2f;
 
 		// Interface //////////////////////////////////////////////////////////////
 		public override void OnFlickStart(Vector2 vScreenPoint, Vector2 vViewportPoint) {
@@ -60,6 +88,7 @@ namespace thinkagaingames.com.basketball {
 		protected float LaunchTime {get; set;}
 		protected float CurlTimeCorrection {get; set;}
 		protected bool TrackingTouch {get; set;}
+		protected Vector3 vLastRayHit {get; set;}
 
 		protected override void OnRayHit(RaycastHit hitInfo) {
 			ball.MoveTo(hitInfo.point);
@@ -89,20 +118,54 @@ namespace thinkagaingames.com.basketball {
 				vLastDirection = vDisplacement;
 			}
 
+			vLastRayHit = hitInfo.point;
 			vLastPosition = ball.Position;
 		}
 
 		private void ComputeFlightPath() {
 			if (target != null && flightTime > 0f) {
+				float aspectCompensator = (float)Screen.height / (float)Screen.width;
+				float normalizedDy = vDisplacementAccumulator.y * aspectCompensator / worldExtentsVertical;
+				float normalizedDx = vDisplacementAccumulator.x / worldExtentsHorizontal;
+
+				// Assume a perfect shot.
 				Vector3 vDelta = target.transform.position - ball.Position;
-				Vector3 vVel = vDelta / flightTime;
-
-				vVel.y = vDelta.y / flightTime - 0.5f * Physics.gravity.y * flightTime;
-
+				Vector3 vVel = Vector3.zero;
 				Vector3 vCamRight = worldCamera.transform.rotation * Vector3.right;
-				Vector3 vRotImpulse = vCamRight * rotationalImpulse;
+				Vector3 vRotImpulse = vCamRight * rotationalImpulse * Random.Range(-1f, 1f);
 
-				ball.Launch(vVel * ball.Mass, vRotImpulse);
+				// Debug.Log("NormDX: " + normalizedDx + "   NormDY: " + normalizedDy);
+
+				if (Mathf.Abs(normalizedDy) > EPSILON) {
+					if (normalizedDy < lowShotThreshold) {
+						float param = Mathf.Max(normalizedDy, 0f) / lowShotThreshold;
+						param = lowShotCurve.Evaluate(param);
+						Vector3 vTargetPos = Vector3.Lerp(targetLow.transform.position, target.transform.position, param);
+						vDelta = vTargetPos - ball.Position;
+					}
+					else if (normalizedDy > highShotThreshold) {
+						float param = Mathf.Min(1f, (normalizedDy - highShotThreshold) / highShotThreshold);
+						param = highShotCurve.Evaluate(param);
+						Vector3 vTargetPos = Vector3.Lerp(target.transform.position, targetHigh.transform.position, param);
+						vDelta = vTargetPos - ball.Position;
+					}
+
+					if (normalizedDx > driftLeftThreshold) {
+						vDelta.x -= lateralDriftScalar * vCamRight.x * (normalizedDx - driftLeftThreshold) * (target.transform.position - ball.Position).magnitude;
+					}
+					else if (normalizedDx < -driftRightThreshold) {
+						vDelta.x -= lateralDriftScalar * vCamRight.x * (normalizedDx + driftRightThreshold) * (target.transform.position - ball.Position).magnitude;
+					}
+
+					vVel = vDelta / flightTime;
+
+					vVel.y = vDelta.y / flightTime - 0.5f * Physics.gravity.y * flightTime;
+
+					ball.Launch(vVel * ball.Mass, vRotImpulse);
+				}
+				else {
+					ball.Launch(Vector3.zero, vRotImpulse);
+				}
 			}
 		}
 
@@ -111,6 +174,8 @@ namespace thinkagaingames.com.basketball {
 			base.Awake();
 
 			Assert.That(ball != null, "Invalid ball object!", gameObject);
+			Assert.That(lowShotCurve != null, "Low shot curve not found!", gameObject);
+			Assert.That(highShotCurve != null, "High short curve not found!", gameObject);
 		}
 
 		protected override void Update() {
