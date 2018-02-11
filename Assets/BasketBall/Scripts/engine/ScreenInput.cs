@@ -16,7 +16,16 @@ namespace thinkagaingames.com.engine {
 	[System.Serializable]
 	public class ScreenInputEnd : UnityEvent<Vector2, Vector2> {}
 
+	[System.Serializable]
+	public enum eInputMode {
+		UNKNOWN,
+		MOUSE,
+		TOUCH
+	}
+
 	public class ScreenInput : MonoBehaviour {
+		public static eInputMode Mode {get; set;}
+
 		// Types and Constants ////////////////////////////////////////////////////
 		private const float MOVE_TOLERANCE = 10f;	// pixels
 
@@ -51,12 +60,14 @@ namespace thinkagaingames.com.engine {
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected virtual void Awake() {
 			Assert.That(uiCamera != null, "UI Camera not found!", gameObject);
+			Mode = eInputMode.UNKNOWN;
 		}
 
 		protected virtual void Update() {
 			if (Input.touchCount > 0) {
 				ContactPoint = Input.touches[0].position;
 				Vector3 vScreenPoint = uiCamera.ScreenToViewportPoint(ContactPoint);
+				Mode = eInputMode.TOUCH;
 
 				switch(Input.touches[0].phase) {
 					case TouchPhase.Began: {
@@ -89,6 +100,8 @@ namespace thinkagaingames.com.engine {
 				}
 			}
 			else if (Input.GetMouseButton(0)) {
+				Mode = eInputMode.MOUSE;
+
 				if (!IsUserContact) {
 					IsUserContact = true;
 					ContactPoint = Input.mousePosition;

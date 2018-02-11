@@ -8,13 +8,19 @@ namespace thinkagaingames.com.basketball {
 	public class BallBasic : MonoBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
 		// Editor Variables ///////////////////////////////////////////////////////
+		[SerializeField]
+		private float netDragLateral = 0.95f;
+
+		[SerializeField]
+		private float netDragVertical = 0.33f;
+
 		// Interface //////////////////////////////////////////////////////////////
 		public float Mass {
 			get {
 				return RigidBody.mass;
 			}
 		}
-		
+
 		public Vector3 Position {
 			get {
 				return gameObject.transform.position;
@@ -27,6 +33,14 @@ namespace thinkagaingames.com.basketball {
 
 		public void MakeDynamic() {
 			RigidBody.isKinematic = false;
+		}
+
+		public void EnteredGoal() {
+			DoDrag = true;
+		}
+
+		public void ExitedGoal() {
+			DoDrag = false;
 		}
 
 		public void MoveTo(Vector3 vPoint) {
@@ -50,14 +64,32 @@ namespace thinkagaingames.com.basketball {
 		// Implementation /////////////////////////////////////////////////////////
 		private Rigidbody RigidBody {get; set;}
 
+		private bool DoDrag {get; set;}
+
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected void Awake() {
 			RigidBody = gameObject.GetComponent<Rigidbody>();
 			Assert.That(RigidBody != null, "Rigidbody component not found!", gameObject);
 		}
 
-		protected virtual void Update() {
+		protected void OnEnable() {
+			DoDrag = false;
+		}
 
+		protected virtual void Update() {
+		}
+
+		protected void FixedUpdate() {
+			if (DoDrag) {
+				Vector3 vVel = RigidBody.velocity;
+				Vector3 vDrag = RigidBody.velocity * netDragLateral * Time.fixedDeltaTime;
+
+				vDrag.z = vVel.z * netDragVertical * Time.fixedDeltaTime;
+
+				RigidBody.AddForce(-vDrag * Mass, ForceMode.Impulse);
+
+				RigidBody.AddTorque(-RigidBody.angularVelocity, ForceMode.VelocityChange);
+			}
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////
