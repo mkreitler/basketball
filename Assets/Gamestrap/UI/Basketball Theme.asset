@@ -55,7 +55,7 @@ MonoBehaviour:
     disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     detail: {r: 1, g: 1, b: 1, a: 1}
   effectSets:
-  - name: Shadow
+  - name: New Effect
     tag: 
     gradient: 0
     gradientTop: {r: 1, g: 1, b: 1, a: 1}
@@ -66,55 +66,13 @@ MonoBehaviour:
     radialGradient: 0
     radialColor: {r: 1, g: 1, b: 1, a: 1}
     centerPosition: {x: 0, y: 0}
-    radius: 0
+    radius: 100
     mirrorEffect: 0
-    mirrorScale: 0
+    mirrorScale: 1
     mirrorOffset: {x: 0, y: 0}
     mirrorSkew: 0
     mirrorTop: {r: 1, g: 1, b: 1, a: 1}
     mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
     skewEffect: 0
     skew: 0
-    perspective: 0
-  - name: Gradient
-    tag: 
-    gradient: 1
-    gradientTop: {r: 1, g: 1, b: 1, a: 1}
-    gradientBottom: {r: 0.52205884, g: 0.52205884, b: 0.52205884, a: 1}
-    shadow: 1
-    shadowColor: {r: 0, g: 0, b: 0, a: 1}
-    shadowOffset: {x: 2, y: -2}
-    radialGradient: 0
-    radialColor: {r: 1, g: 1, b: 1, a: 1}
-    centerPosition: {x: 0, y: 0}
-    radius: 0
-    mirrorEffect: 0
-    mirrorScale: 0
-    mirrorOffset: {x: 0, y: 0}
-    mirrorSkew: 0
-    mirrorTop: {r: 1, g: 1, b: 1, a: 1}
-    mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
-    skewEffect: 0
-    skew: 0
-    perspective: 0
-  - name: Shadow and Gradient
-    tag: 
-    gradient: 1
-    gradientTop: {r: 1, g: 1, b: 1, a: 1}
-    gradientBottom: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 1}
-    shadow: 1
-    shadowColor: {r: 0, g: 0, b: 0, a: 0.47843137}
-    shadowOffset: {x: 0, y: -2}
-    radialGradient: 0
-    radialColor: {r: 1, g: 1, b: 1, a: 1}
-    centerPosition: {x: 0, y: 0}
-    radius: 0
-    mirrorEffect: 0
-    mirrorScale: 0
-    mirrorOffset: {x: 0, y: 0}
-    mirrorSkew: 0
-    mirrorTop: {r: 1, g: 1, b: 1, a: 1}
-    mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
-    skewEffect: 0
-    skew: 0
-    perspective: 0
+    perspective: 1

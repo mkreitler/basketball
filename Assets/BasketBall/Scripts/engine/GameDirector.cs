@@ -102,7 +102,7 @@ namespace com.thinkagaingames.engine {
 		}
 
 		public void ShowMainMenu(UiDirector.TransitionGroup group) {
-			Debug.Log(">>> ShowMainMenu");
+			UiDirector.Instance.StartTransition("MainMenuOptions", true);
 		}
 
 		public void UndoPreviousTransition(UiDirector.TransitionGroup group) {

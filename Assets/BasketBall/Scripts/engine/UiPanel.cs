@@ -55,6 +55,8 @@ namespace com.thinkagaingames.engine {
 		// Implementation /////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
 		public void TransitionIn() {
+			gameObject.SetActive(true);
+			
 			if (NewTransition) {
 				TransitionParam = 0f;
 			}
@@ -108,6 +110,7 @@ namespace com.thinkagaingames.engine {
 				NewTransition = true;
 				FixedUpdateState = null;
 				Switchboard.Broadcast("TransitionComplete", name);
+				gameObject.SetActive(false);
 			}
 		}
 

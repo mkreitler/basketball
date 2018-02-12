@@ -11,18 +11,21 @@ namespace com.thinkagaingames.engine {
 		// Editor Variables ///////////////////////////////////////////////////////
 		// Interface //////////////////////////////////////////////////////////////
 		// Implementation /////////////////////////////////////////////////////////
+		private bool Localized {get; set;}
 
 		// Interfaces /////////////////////////////////////////////////////////////
-		public override void OnStartGame() {
-			Text localText = gameObject.GetComponent<Text>();
+		protected void OnEnable() {
+			if (!Localized) {
+				Text localText = gameObject.GetComponent<Text>();
 
-			base.OnStartGame();
+				base.OnStartGame();
 
-			if (localText != null) {
-				localText.text = StringTable.GetString(localText.text);
+				if (localText != null) {
+					localText.text = StringTable.GetString(localText.text);
+				}
+
+				Localized = true;
 			}
-
-			base.Start();
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////
