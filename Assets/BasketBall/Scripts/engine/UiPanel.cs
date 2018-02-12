@@ -31,6 +31,12 @@ namespace com.thinkagaingames.engine {
 		}
 
 		[System.Serializable]
+		private class FadeInfo {
+			public MaskableGraphic element = null;
+			public float targetAlpha = 1f;
+		}
+
+		[System.Serializable]
 		private class TransitionInfo {
 			public eTransitionType type = eTransitionType.SLIDE;
 			public AnimationCurve curve = null;
@@ -42,7 +48,7 @@ namespace com.thinkagaingames.engine {
 		private List<TransitionInfo>transitionInfo = null;
 
 		[SerializeField]
-		private List<MaskableGraphic>fadeElements = null;
+		private List<FadeInfo>fadeInfo = null;
 
 		[SerializeField]
 		private float transitionTime = DEFAULT_TRANSITION_TIME;
@@ -56,7 +62,7 @@ namespace com.thinkagaingames.engine {
 		// Static -----------------------------------------------------------------
 		public void TransitionIn() {
 			gameObject.SetActive(true);
-			
+
 			if (NewTransition) {
 				TransitionParam = 0f;
 			}
@@ -132,9 +138,10 @@ namespace com.thinkagaingames.engine {
 		}
 
 		private void ResolveFade(float param) {
-			for (int i=0; i<fadeElements.Count; ++i) {
-				Color color = fadeElements[i].color;
-				color.a = param;
+			for (int i=0; i<fadeInfo.Count; ++i) {
+				Color color = fadeInfo[i].element.color;
+				color.a = fadeInfo[i].targetAlpha * param;
+				fadeInfo[i].element.color = color;
 			}
 		}
 
@@ -156,7 +163,11 @@ namespace com.thinkagaingames.engine {
 		protected override void Start() {
 			base.Start();
 
-			// Copy our starting transform.
+			for (int i=0; i<fadeInfo.Count; ++i) {
+				Assert.That(fadeInfo[i].element != null, "Fade element not defined!", gameObject);
+			}
+
+			// Copy our target transform.
 			OffScreenLocalPosition = Transform2D.localPosition;
 		}
 

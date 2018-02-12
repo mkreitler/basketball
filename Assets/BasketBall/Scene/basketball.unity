@@ -1157,7 +1157,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 2134109596}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!114 &327927574
 MonoBehaviour:
@@ -1355,7 +1355,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 414724738}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1192429878}
+        m_MethodName: MainMenuStartTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &414724738
@@ -1425,7 +1436,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 822738816}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.4
 --- !u!1001 &445460327
 Prefab:
@@ -5180,7 +5191,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 1589524823}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!1001 &559902317
 Prefab:
@@ -9088,7 +9099,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 529723224}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!114 &679922256
 MonoBehaviour:
@@ -9254,7 +9265,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 265038424}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!114 &695074927
 MonoBehaviour:
@@ -9371,7 +9382,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 1788734325}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!1 &780474899
 GameObject:
@@ -9620,7 +9631,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 1966874750}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.3
 --- !u!1 &802594365
 GameObject:
@@ -10996,6 +11007,9 @@ MonoBehaviour:
   initList:
   - {fileID: 1212512244}
   - {fileID: 1418814520}
+  cameraWorld: {fileID: 1240905761}
+  cameraUI: {fileID: 1583802070}
+  cameraSplash: {fileID: 1226230266}
 --- !u!1 &1198079232
 GameObject:
   m_ObjectHideFlags: 0
@@ -11008,6 +11022,7 @@ GameObject:
   - component: {fileID: 1198079234}
   - component: {fileID: 1198079236}
   - component: {fileID: 1198079237}
+  - component: {fileID: 1198079238}
   m_Layer: 5
   m_Name: touchZone
   m_TagString: Untagged
@@ -11078,16 +11093,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.9490196, g: 0.8862745, b: 0.019607844, a: 0.353}
-    m_HighlightedColor: {r: 0.9852941, g: 0.9657301, b: 0.6955017, a: 1}
-    m_PressedColor: {r: 0.46323532, g: 0.43242195, b: 0.0068122908, a: 1}
+    m_NormalColor: {r: 0.9490196, g: 0.8862745, b: 0.019607844, a: 0.3529412}
+    m_HighlightedColor: {r: 0.9490197, g: 0.454902, b: 0.019607844, a: 0.3529412}
+    m_PressedColor: {r: 0.7490196, g: 0.14901961, b: 0.015686275, a: 0.3529412}
     m_DisabledColor: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -11143,6 +11158,42 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &1198079238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1198079232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a9a2b651d9145e38c9b1325e88ffca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionInfo:
+  - type: 0
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    onScreenTransform: {fileID: 1198079233}
+  fadeInfo:
+  - element: {fileID: 1198079234}
+    targetAlpha: 1
+  transitionTime: 0.33
 --- !u!1 &1212512242
 GameObject:
   m_ObjectHideFlags: 0
@@ -11204,7 +11255,7 @@ GameObject:
   - component: {fileID: 1226230266}
   - component: {fileID: 1226230265}
   m_Layer: 11
-  m_Name: Camera
+  m_Name: CameraSplash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11876,6 +11927,7 @@ MonoBehaviour:
   driftLeftThreshold: 0.015
   driftRightThreshold: 0.2
   lateralDriftScalar: 2.5
+  touchZone: {fileID: 0}
 --- !u!1 &1480038997
 GameObject:
   m_ObjectHideFlags: 0
@@ -12247,6 +12299,30 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     onTransitionOutComplete:
       m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1192429878}
+          m_MethodName: UndoPreviousTransition
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: com.thinkagaingames.engine.UiDirector+TransitionEndEvent, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - name: GameHUD
+    panels:
+    - {fileID: 1198079238}
+    onTransitionInComplete:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: com.thinkagaingames.engine.UiDirector+TransitionEndEvent, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    onTransitionOutComplete:
+      m_PersistentCalls:
         m_Calls: []
       m_TypeName: com.thinkagaingames.engine.UiDirector+TransitionEndEvent, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -12424,7 +12500,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 1110187419}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!114 &1565012362
 MonoBehaviour:
@@ -16302,7 +16378,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 544045945}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!1001 &1612304386
 Prefab:
@@ -16502,7 +16578,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 1955600296}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!114 &1614467851
 MonoBehaviour:
@@ -16680,7 +16756,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     onScreenTransform: {fileID: 955967705}
-  fadeElements: []
+  fadeInfo: []
   transitionTime: 0.5
 --- !u!1 &1656895828
 GameObject:

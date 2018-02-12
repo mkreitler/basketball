@@ -27,6 +27,7 @@ namespace com.thinkagaingames.engine {
 			public TransitionGroup group = null;
 			public eTransDirection direction = eTransDirection.UNKNOWN;
 			public int completionsRemaining = 0;
+			public bool wantsRemove = false;
 
 			public bool RegisterCompletion(string name) {
 				name = name.ToLower();
@@ -81,7 +82,8 @@ namespace com.thinkagaingames.engine {
 			TransitionRecord record = GetUnusedTransitionRecord();
 			record.group = group;
 			record.direction = isTransitionIn ? eTransDirection.IN : eTransDirection.OUT;
-			transitionHistory.Insert(0, record);
+			record.wantsRemove = false;
+			transitionHistory.Insert(0, record);			
 
 			StartPanelTransitions(record);
 		}
@@ -91,8 +93,16 @@ namespace com.thinkagaingames.engine {
 				TransitionRecord record = transitionHistory[0];
 				Assert.That(record != null, "Invalid transition history!", gameObject);
 				record.direction = record.direction == eTransDirection.IN ? eTransDirection.OUT : eTransDirection.IN;
-			
+				record.wantsRemove = true;
+
 				StartPanelTransitions(record);
+			}
+		}
+
+		public void ResetHistory() {
+			while (transitionHistory.Count > 0) {
+				unusedRecords.Add(transitionHistory[0]);
+				transitionHistory.RemoveAt(0);
 			}
 		}
 
@@ -189,8 +199,13 @@ namespace com.thinkagaingames.engine {
 			Assert.That(transitionHistory.Count > 0, "Invalid transtion history!", gameObject);
 
 			TransitionRecord lastTransition = transitionHistory[0];
+			
 			if (lastTransition.RegisterCompletion(panelName)) {
 				// All panels have transitioned.
+				if (lastTransition.wantsRemove) {
+					transitionHistory.RemoveAt(0);
+				}
+
 				if (lastTransition.direction == eTransDirection.IN) {
 					if (lastTransition.group.onTransitionInComplete != null) {
 						lastTransition.group.onTransitionInComplete.Invoke(lastTransition.group);

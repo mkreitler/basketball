@@ -7,9 +7,22 @@ using com.thinkagaingames.engine;
 namespace com.thinkagaingames.engine {
 	public class GameDirector : PausableBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
+		private enum eGameMode {
+			TUTORIAL
+		}
+
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
 		private List<PausableBehaviour> initList = null;
+
+		[SerializeField]
+		private Camera cameraWorld = null;
+
+		[SerializeField]
+		private Camera cameraUI = null;
+
+		[SerializeField]
+		private Camera cameraSplash = null;
 
 		// Interface //////////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
@@ -50,6 +63,8 @@ namespace com.thinkagaingames.engine {
 		}
 
 		// Implementation /////////////////////////////////////////////////////////
+		private eGameMode NextGameMode {get; set;}
+
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Awake() {
 			base.Awake();
@@ -65,6 +80,10 @@ namespace com.thinkagaingames.engine {
 
 		protected override void Start() {
 			base.Start();
+
+			Assert.That(cameraWorld != null, "World camera not found!", gameObject);
+			Assert.That(cameraUI != null, "UI camera not found!", gameObject);
+			Assert.That(cameraSplash != null, "Splash camera not found!", gameObject);
 
 			StartCoroutine("PrepForInit");
 		}
@@ -96,9 +115,18 @@ namespace com.thinkagaingames.engine {
 			initList.Clear();
 		}
 
+		// Button Handlers ////////////////////////////////////////////////////
+		public void MainMenuStartTutorial() {
+			cameraWorld.enabled = true;
+			NextGameMode = eGameMode.TUTORIAL;
+			UiDirector.Instance.UndoMostRecentTransition();
+			Debug.Log(">>> Starting tutorial!");
+		}
+
 		// Message Handlers ///////////////////////////////////////////////////
 		public void ShowTitle(UiDirector.TransitionGroup group) {
 			UiDirector.Instance.StartTransition("TitlePanels", true);
+			cameraSplash.enabled = false;
 		}
 
 		public void ShowMainMenu(UiDirector.TransitionGroup group) {
@@ -110,7 +138,14 @@ namespace com.thinkagaingames.engine {
 		}
 
 		public void StartGameMode(UiDirector.TransitionGroup group) {
-			Debug.Log(">>> StartGameMode");
+			switch (NextGameMode) {
+				case eGameMode.TUTORIAL:
+					// TODO:
+					// Set "tutorial" flag.
+					// Select the correct world configuration.
+					UiDirector.Instance.StartTransition("GameHUD", true);
+				break;
+			}
 		}
 	}
 }
