@@ -41,7 +41,9 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected void Awake() {
+		protected override void Awake() {
+			base.Awake();
+			
 			Assert.That(ballPrefabs.Count > 0, "No ball prefabs loaded!", gameObject);
 			Assert.That(ballDocks.Count > 0, "No ball docks defined!", gameObject);
 

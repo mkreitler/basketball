@@ -71,7 +71,9 @@ namespace com.thinkagaingames.basketball {
 		private bool DoDrag {get; set;}
 
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected void Awake() {
+		protected override void Awake() {
+			base.Awake();
+			
 			RigidBody = gameObject.GetComponent<Rigidbody>();
 			Assert.That(RigidBody != null, "Rigidbody component not found!", gameObject);
 		}

@@ -65,6 +65,7 @@ namespace com.thinkagaingames.engine {
 					addList[i].handler = handler;
 					addList[i].inUse = true;
 					bAdded = true;
+					break;
 				}
 			}
 
@@ -92,6 +93,7 @@ namespace com.thinkagaingames.engine {
 					removeList[i].handler = handler;
 					removeList[i].inUse = true;
 					bAdded = true;
+					break;
 				}
 			}
 

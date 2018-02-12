@@ -37,7 +37,9 @@ namespace com.thinkagaingames.basketball {
 		protected ParticleSystem[] particleSystems = null;
 
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected void Awake() {
+		protected override void Awake() {
+			base.Awake();
+			
 			particleSystems = gameObject.GetComponentsInChildren<ParticleSystem>(true);
 		}
 

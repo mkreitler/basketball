@@ -58,7 +58,9 @@ namespace com.thinkagaingames.engine {
 		public Vector2 ContactPointCurrent {get; set;}
 
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected virtual void Awake() {
+		protected override void Awake() {
+			base.Awake();
+			
 			Assert.That(uiCamera != null, "UI Camera not found!", gameObject);
 			Mode = eInputMode.UNKNOWN;
 		}

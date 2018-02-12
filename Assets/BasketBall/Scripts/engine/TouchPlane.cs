@@ -84,7 +84,9 @@ namespace com.thinkagaingames.engine {
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected virtual void Awake() {
+		protected override void Awake() {
+			base.Awake();
+			
 			Assert.That(worldCamera != null, "Undefined world camera!", gameObject);
 		}
 

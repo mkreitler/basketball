@@ -54,7 +54,9 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected void Awake() {
+		protected override void Awake() {
+			base.Awake();
+			
 			Assert.That(scoreParticle != null, "Score particle system not found!", gameObject);
 		}
 		// Coroutines /////////////////////////////////////////////////////////////

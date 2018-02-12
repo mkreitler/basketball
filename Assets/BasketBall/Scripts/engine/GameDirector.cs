@@ -15,11 +15,10 @@ namespace com.thinkagaingames.engine {
 		// Static -----------------------------------------------------------------
 		public static GameDirector Instance = null;
 
-		// Not sure this is useful...
-		// public bool AddToInitList(PausableBehaviour pausable) {
-		//  Assert.That(Instance != null, "GameDirector instance not found!");			
-		// 	return Instance._AddToInitList(pausable);
-		// }
+		public static bool AddToInitList(PausableBehaviour pausable) {
+		 	Assert.That(Instance != null, "GameDirector instance not found!");			
+			return Instance._AddToInitList(pausable);
+		}
 
 		public static void PauseGame() {
 			Time.timeScale = 0f;
@@ -40,20 +39,21 @@ namespace com.thinkagaingames.engine {
 		}
 
 		// Instance ---------------------------------------------------------------
-		// Not sure this is useful...
-		// public bool _AddToInitList(PausableBehaviour pausable) {
-		// 	bool bAlreadyAdded = initList.Contains(pausable);
+		public bool _AddToInitList(PausableBehaviour pausable) {
+			bool bAlreadyAdded = initList.Contains(pausable);
 
-		// 	if (!bAlreadyAdded) {
-		// 		initList.Add(pausable);
-		// 	}
+			if (!bAlreadyAdded) {
+				initList.Add(pausable);
+			}
 
-		// 	return bAlreadyAdded;
-		// }
+			return bAlreadyAdded;
+		}
 
 		// Implementation /////////////////////////////////////////////////////////
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected void Awake() {
+		protected override void Awake() {
+			base.Awake();
+			
 			Assert.That(Instance == null, "Awake: Found multiple GameDirectors!", gameObject);
 
 			Instance = this;
@@ -67,6 +67,10 @@ namespace com.thinkagaingames.engine {
 			base.Start();
 
 			StartCoroutine("PrepForInit");
+		}
+
+		public override void OnStartGame() {
+			UiDirector.Instance.StartTransition("BlackoutPanels", true);
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////
@@ -90,6 +94,23 @@ namespace com.thinkagaingames.engine {
 			}
 
 			initList.Clear();
+		}
+
+		// Message Handlers ///////////////////////////////////////////////////
+		public void ShowTitle(UiDirector.TransitionGroup group) {
+			UiDirector.Instance.StartTransition("TitlePanels", true);
+		}
+
+		public void ShowMainMenu(UiDirector.TransitionGroup group) {
+			Debug.Log(">>> ShowMainMenu");
+		}
+
+		public void UndoPreviousTransition(UiDirector.TransitionGroup group) {
+			UiDirector.Instance.UndoMostRecentTransition();
+		}
+
+		public void StartGameMode(UiDirector.TransitionGroup group) {
+			Debug.Log(">>> StartGameMode");
 		}
 	}
 }

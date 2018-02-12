@@ -22,14 +22,14 @@ namespace com.thinkagaingames.engine {
 
 		// Implementation /////////////////////////////////////////////////////////
 		// Interfaces /////////////////////////////////////////////////////////////
-		protected virtual void Start() {
-			ReadyToStart = true;
+		protected virtual void Awake() {
+			// Is there something to do here?
 		}
 
-		// Don't think we will need this...
-		// protected virtual void AddToInitList() {
-		// 	Assert.That(GameDirector.AddToInitList(this) == false, "Instance already in initList!", gameObject);
-		// }
+		protected virtual void Start() {
+			GameDirector.AddToInitList(this);
+			ReadyToStart = true;
+		}
 
 		public virtual void OnPauseGame() {}
 
