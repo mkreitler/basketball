@@ -51,7 +51,17 @@ namespace com.thinkagaingames.basketball {
 
 		protected override void Start() {
 			Switchboard.AddListener("RequestNextBall", ProvideNextBall);
+			Switchboard.AddListener("BeginRound", OnBeginRound);
 			base.Start();
+		}
+
+		public void OnBeginRound(object objIgnored) {
+			for (int i=0; i<balls.Count; ++i) {
+				BallBasic newBall = balls[i].GetComponent<BallBasic>();
+				Assert.That(newBall != null, "Instantiated invalid ball!", gameObject);
+				newBall.transform.localPosition = Vector3.zero;
+				newBall.MakeKinematic();
+			}
 		}
 
 		public override void OnStartGame() {
@@ -77,7 +87,6 @@ namespace com.thinkagaingames.basketball {
 			}
 
 			CurrentBallIndex = -1;
-
 			ProvideNextBall(null);
 		}
 

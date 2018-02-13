@@ -11,12 +11,25 @@ namespace com.thinkagaingames.basketball {
 			BASIC
 		}
 
+		[System.Serializable]
+		private class ContactSoundData {
+			public string surface = null;
+			public string sound = null;
+			public float minRepeatInterval = 0f;
+
+			[System.NonSerialized]
+			public float lastPlayTime = 0f;
+		}
+
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
 		private float netDragLateral = 0.95f;
 
 		[SerializeField]
 		private float netDragVertical = 0.33f;
+
+		[SerializeField]
+		private List<ContactSoundData> contactSounds = null;
 
 		// Interface //////////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
@@ -82,6 +95,33 @@ namespace com.thinkagaingames.basketball {
 
 		private bool DoDrag {get; set;}
 
+		private Hashtable contactSoundsTable = new Hashtable();
+
+		private void BuildContactSoundsTable() {
+			for (int i=0; i<contactSounds.Count; ++i) {
+				if (!contactSoundsTable.Contains(contactSounds[i].surface)) {
+					contactSoundsTable[contactSounds[i].surface.ToLower()] = contactSounds[i];
+				}
+				else {
+					Assert.That(false, "Duplicate contact sounds for surface " + contactSounds[i].surface, gameObject);
+				}
+			}
+		}
+
+		private void PlayContactSound(string surfaceTag) {
+			surfaceTag = surfaceTag.ToLower();
+
+			if (contactSoundsTable.Contains(surfaceTag)) {
+				ContactSoundData contactData = contactSoundsTable[surfaceTag] as ContactSoundData;
+				Assert.That(contactData != null, "Invalid contact sound data!", gameObject);
+
+				if (Time.time - contactData.lastPlayTime > contactData.minRepeatInterval) {
+					contactData.lastPlayTime = Time.time;
+					SoundSystem.PlaySound(contactData.sound);
+				}
+			}
+		}
+
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Awake() {
 			base.Awake();
@@ -89,7 +129,10 @@ namespace com.thinkagaingames.basketball {
 			RigidBody = gameObject.GetComponent<Rigidbody>();
 			Assert.That(RigidBody != null, "Rigidbody component not found!", gameObject);
 
+			BuildContactSoundsTable();
+
 			Switchboard.AddListener("BallInGoal", OnBallInGoal);
+			Switchboard.AddListener("StageEnded", OnStageEnded);
 		}
 
 		protected void OnEnable() {
@@ -127,6 +170,12 @@ namespace com.thinkagaingames.basketball {
 			}
 		}
 
+		protected void OnCollisionEnter(Collision collision) {
+			if (collision.gameObject != null) {
+				PlayContactSound(collision.gameObject.tag);
+			}
+		}
+
 		// Coroutines /////////////////////////////////////////////////////////////
 
 		// Message Handlers ///////////////////////////////////////////////////////
@@ -137,6 +186,11 @@ namespace com.thinkagaingames.basketball {
 				Armed = false;
 				Switchboard.Broadcast("PlayerScored", null);
 			}
+		}
+
+		public void OnStageEnded(object ignored) {
+			MakeDynamic();
+			Armed = false;
 		}
 	}
 }

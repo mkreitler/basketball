@@ -171,6 +171,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netDragLateral: 0.95
   netDragVertical: 0.33
+  contactSounds:
+  - surface: ball
+    sound: bounce
+    minRepeatInterval: 0.1
+  - surface: ground
+    sound: bounce
+    minRepeatInterval: 0.1
+  - surface: backboard
+    sound: bboardHit
+    minRepeatInterval: 0.1
+  - surface: rim
+    sound: rimHit
+    minRepeatInterval: 0.1
+  - surface: fence
+    sound: fenceHit
+    minRepeatInterval: 0.33
 --- !u!135 &135282326738579190
 SphereCollider:
   m_ObjectHideFlags: 1

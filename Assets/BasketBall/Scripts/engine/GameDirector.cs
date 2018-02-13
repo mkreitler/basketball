@@ -161,6 +161,7 @@ namespace com.thinkagaingames.engine {
 			DisableTouchInput();
 			StopGameClock();
 			Timer = 0f;
+			Switchboard.Broadcast("StageEnded", null);
 
 			if (GameMode == eGameMode.TUTORIAL) {
 				EndRound();
@@ -320,6 +321,10 @@ namespace com.thinkagaingames.engine {
 					}
 				}
 			}
+		}
+
+		public void PlayShortWhistle() {
+			SoundSystem.PlaySound("short_whistle");
 		}
 
 		public void StartGameClock() {
