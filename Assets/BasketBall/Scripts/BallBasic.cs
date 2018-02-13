@@ -19,6 +19,9 @@ namespace com.thinkagaingames.basketball {
 		private float netDragVertical = 0.33f;
 
 		// Interface //////////////////////////////////////////////////////////////
+		// Static -----------------------------------------------------------------
+
+		// Instance ---------------------------------------------------------------
 		public float Mass {
 			get {
 				return RigidBody.mass;
@@ -30,12 +33,19 @@ namespace com.thinkagaingames.basketball {
 				return gameObject.transform.position;
 			}
 		}
+
+		public void StopPhysics() {
+			MakeKinematic();
+			RigidBody.velocity = Vector3.zero;
+		}
 		
 		public void MakeKinematic() {
 			RigidBody.isKinematic = true;
 		}
 
 		public void MakeDynamic() {
+			Armed = true;
+			Switchboard.Broadcast("BallArmed", null);
 			RigidBody.isKinematic = false;
 		}
 
@@ -66,16 +76,20 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		// Implementation /////////////////////////////////////////////////////////
-		private Rigidbody RigidBody {get; set;}
+		protected bool Armed {get; set;}
+
+		protected Rigidbody RigidBody {get; set;}
 
 		private bool DoDrag {get; set;}
 
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Awake() {
 			base.Awake();
-			
+
 			RigidBody = gameObject.GetComponent<Rigidbody>();
 			Assert.That(RigidBody != null, "Rigidbody component not found!", gameObject);
+
+			Switchboard.AddListener("BallInGoal", OnBallInGoal);
 		}
 
 		protected void OnEnable() {
@@ -85,7 +99,7 @@ namespace com.thinkagaingames.basketball {
 		protected virtual void Update() {
 		}
 
-		protected void FixedUpdate() {
+		protected virtual void FixedUpdate() {
 			if (DoDrag) {
 				Vector3 vVel = RigidBody.velocity;
 				Vector3 vDrag = RigidBody.velocity * netDragLateral * Time.fixedDeltaTime;
@@ -98,6 +112,31 @@ namespace com.thinkagaingames.basketball {
 			}
 		}
 
+		protected void OnTriggerEnter(Collider collider) {
+			string otherTag = collider != null && collider.gameObject != null ? collider.gameObject.tag : null;
+
+			if (otherTag != null) {
+				otherTag = otherTag.ToLower();
+
+				if (Armed) {
+					if (otherTag == "miss") {
+						Armed = false;
+						Switchboard.Broadcast("PlayerMissed", null);
+					}
+				}
+			}
+		}
+
 		// Coroutines /////////////////////////////////////////////////////////////
+
+		// Message Handlers ///////////////////////////////////////////////////////
+		public void OnBallInGoal(object objBallGameObject) {
+			GameObject goBall = objBallGameObject as GameObject;
+
+			if (goBall == gameObject && Armed) {
+				Armed = false;
+				Switchboard.Broadcast("PlayerScored", null);
+			}
+		}
 	}
 }

@@ -50,11 +50,12 @@ namespace com.thinkagaingames.basketball {
 
 		// Interface //////////////////////////////////////////////////////////////
 		public override void OnFlickStart(Vector2 vScreenPoint, Vector2 vViewportPoint) {
-			if (TrackingTouch) {
+			if (TrackingTouch && gameObject.activeSelf) {
 				base.OnFlickStart(vScreenPoint, vViewportPoint);
 				ball.MakeKinematic();
 				ResetVelocityTracker = true;
 				LaunchTime = 0f;
+				Switchboard.Broadcast("FlickStart", null);
 			}
 		}
 
@@ -63,11 +64,12 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		public override void OnFlickEnd(Vector2 vScreenPoint, Vector2 vViewportPoint) {
-			if (TrackingTouch) {
+			if (TrackingTouch && gameObject.activeSelf) {
 				base.OnFlickEnd(vScreenPoint, vViewportPoint);
 				ball.MakeDynamic();
 				ComputeFlightPath();
 				TrackingTouch = false;
+				Switchboard.Broadcast("FlickEnd", null);
 				Switchboard.Broadcast("RequestNextBall");
 			}
 		}
@@ -124,7 +126,7 @@ namespace com.thinkagaingames.basketball {
 		private void ComputeFlightPath() {
 			if (target != null && flightTime > 0f) {
 				float aspectCompensator = (float)Screen.height / (float)Screen.width;
-				float normalizedDy = vDisplacementAccumulator.y * aspectCompensator / worldExtentsVertical;
+				float normalizedDy = vDisplacementAccumulator.y * Mathf.Sqrt(aspectCompensator) / worldExtentsVertical;
 				float normalizedDx = vDisplacementAccumulator.x / worldExtentsHorizontal;
 
 				// Assume a perfect shot.
@@ -168,13 +170,11 @@ namespace com.thinkagaingames.basketball {
 			}
 		}
 
-		private bool SetBall(object ballObj) {
+		private void SetBall(object ballObj) {
 			GameObject goBall = ballObj as GameObject;
 			ball = goBall != null ? goBall.GetComponent<BallBasic>() : null;
 
 			Assert.That(ball != null, "Failed to set ball!", gameObject);
-
-			return ball != null;
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
@@ -197,8 +197,36 @@ namespace com.thinkagaingames.basketball {
 
 		public override void OnStartGame() {
 			Assert.That(ball != null, "Invalid ball object!", gameObject);
+
+			Switchboard.AddListener("BeginRound", OnBeginRound);
+			Switchboard.AddListener("EndRound", OnEndRound);
+			Switchboard.AddListener("EnableTouchInput", OnEnableTouchInput);
+			Switchboard.AddListener("DisableTouchInput", OnDisableTouchInput);
+
+			gameObject.SetActive(false);
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////
+
+		// Message Handlers ///////////////////////////////////////////////////////
+		private void OnBeginRound(object boolIsTutorial) {
+			bool isTutorial = (bool)boolIsTutorial;
+
+			if (!isTutorial) {
+				gameObject.SetActive(true);
+			}
+		}
+
+		private void OnEndRound(object ignored) {
+
+		}
+
+		private void OnEnableTouchInput(object ignored) {
+			gameObject.SetActive(true);
+		}
+
+		private void OnDisableTouchInput(object ignored) {
+			gameObject.SetActive(false);
+		}
 	}
 }

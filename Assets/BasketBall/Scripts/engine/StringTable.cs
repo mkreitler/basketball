@@ -11,6 +11,7 @@ namespace com.thinkagaingames.engine {
 		private const char SEPARATOR = '~';
 		private const string FLAG_FUNCTION = "#";
 		private const string KEY_NOT_FOUND = "Key Not Found: ";
+		private const string RETURN = "<br>";
 
 		[System.Serializable]
 		private class StringInfo {
@@ -68,6 +69,10 @@ namespace com.thinkagaingames.engine {
 
 		private string _GetString(string key) {
 			string value = key != null && key != null ? stringTable[key] as string : null;
+
+			Assert.That(value != null && value.Length > 0, "Invalid string for key: " + key, gameObject);
+
+			value = value.Replace(RETURN, "\n");
 
 			if (value != null && value.StartsWith(FLAG_DYNAMIC)) {
 				string[] chunks = value.Substring(1).Split(SEPARATOR);

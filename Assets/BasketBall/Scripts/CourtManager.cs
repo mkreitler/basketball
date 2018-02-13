@@ -35,9 +35,8 @@ namespace com.thinkagaingames.basketball {
 
 		private int BallTypeIndex {get; set;}
 
-		public bool ProvideNextBall(object objIgnored) {
+		public void ProvideNextBall(object objIgnored) {
 			Switchboard.Broadcast("SetBall", GetNextBall());
-			return true;
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////

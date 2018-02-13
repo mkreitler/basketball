@@ -12,33 +12,43 @@ namespace com.thinkagaingames.basketball {
 		private ParticleMaster scoreParticle = null;
 
 		// Interface //////////////////////////////////////////////////////////////
+		private bool TriggerEntered {get; set;}
+
 		public void OnTriggerEnter(Collider collider) {
-			if (collider.gameObject != null && collider.gameObject.tag.ToLower().Contains("ball_") && !WaitingForExit) {
-				WaitingForExit = true;
-				collider.gameObject.SendMessage("EnteredGoal", SendMessageOptions.DontRequireReceiver);
+			if (!TriggerEntered) {
+				TriggerEntered = true;
 
-				Rigidbody rbIncoming = collider.gameObject.GetComponent<Rigidbody>();
+				if (collider.gameObject != null && collider.gameObject.tag.ToLower().Contains("ball_") && !WaitingForExit) {
+					WaitingForExit = true;
+					collider.gameObject.SendMessage("EnteredGoal", SendMessageOptions.DontRequireReceiver);
 
-				if (rbIncoming && Vector3.Dot(rbIncoming.velocity, Vector3.up) < 0f) {
-					EntryHeight = collider.gameObject.transform.position.y;
-					EnteredFromAbove = true;
+					Rigidbody rbIncoming = collider.gameObject.GetComponent<Rigidbody>();
+
+					if (rbIncoming && Vector3.Dot(rbIncoming.velocity, Vector3.up) < 0f) {
+						EntryHeight = collider.gameObject.transform.position.y;
+						EnteredFromAbove = true;
+					}
 				}
 			}
 		}
 
 		public void OnTriggerExit(Collider collider) {
-			if (collider.gameObject != null && collider.gameObject.tag.ToLower().Contains("ball_")) {
-				WaitingForExit = false;
-				collider.gameObject.SendMessage("ExitedGoal", SendMessageOptions.DontRequireReceiver);
+			if (TriggerEntered) {
+				TriggerEntered = false;
 
-				Rigidbody rbIncoming = collider.gameObject.GetComponent<Rigidbody>();
-				ExitHeight = collider.gameObject.transform.position.y;
+				if (collider.gameObject != null && collider.gameObject.tag.ToLower().Contains("ball_")) {
+					WaitingForExit = false;
+					collider.gameObject.SendMessage("ExitedGoal", SendMessageOptions.DontRequireReceiver);
 
-				if (rbIncoming && Vector3.Dot(rbIncoming.velocity, Vector3.up) < 0f && ExitHeight < EntryHeight) {
-					Score();
+					Rigidbody rbIncoming = collider.gameObject.GetComponent<Rigidbody>();
+					ExitHeight = collider.gameObject.transform.position.y;
+
+					if (rbIncoming && Vector3.Dot(rbIncoming.velocity, Vector3.up) < 0f && ExitHeight < EntryHeight) {
+						Switchboard.Broadcast("BallInGoal", collider.gameObject);
+					}
+
+					EnteredFromAbove = false;
 				}
-
-				EnteredFromAbove = false;
 			}
 		}
 
@@ -49,16 +59,25 @@ namespace com.thinkagaingames.basketball {
 		private bool EnteredFromAbove {get; set;}
 		private bool WaitingForExit {get; set;}
 
-		private void Score() {
-			scoreParticle.Play();
-		}
-
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Awake() {
 			base.Awake();
 			
 			Assert.That(scoreParticle != null, "Score particle system not found!", gameObject);
+
+			Switchboard.AddListener("PlayerScored", OnPlayerScored);
+			Switchboard.AddListener("BallArmed", OnBallArmed);
 		}
+
 		// Coroutines /////////////////////////////////////////////////////////////
+
+		// Message Handlers ///////////////////////////////////////////////////////
+		public void OnPlayerScored(object ignored) {
+			scoreParticle.Play();
+		}
+
+		public void OnBallArmed(object ignored) {
+			TriggerEntered = false;
+		}
 	}
 }

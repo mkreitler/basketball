@@ -5,7 +5,7 @@ using UnityEngine;
 namespace com.thinkagaingames.engine {
 	public class Switchboard : MonoBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
-		public delegate bool messageHandler(object args);
+		public delegate void messageHandler(object args);
 
 		private class ListenerInfo {
 			public bool inUse;

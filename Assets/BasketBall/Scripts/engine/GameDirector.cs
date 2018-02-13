@@ -11,6 +11,21 @@ namespace com.thinkagaingames.engine {
 			TUTORIAL
 		}
 
+		[System.Serializable]
+		private enum eTutorialStepTrigger {
+			FLICK_START,
+			FLICK_END
+		}
+
+		[System.Serializable]
+		private class TutorialData {
+			public eTutorialStepTrigger triggerType = eTutorialStepTrigger.FLICK_START;
+			public int flickCount = -1;
+			public string transitionName = null;
+			public bool isTransitionIn = true;
+			public string triggerFunction = null;
+		}
+
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
 		private List<PausableBehaviour> initList = null;
@@ -23,6 +38,27 @@ namespace com.thinkagaingames.engine {
 
 		[SerializeField]
 		private Camera cameraSplash = null;
+
+		[SerializeField]
+		private List<TutorialData> tutorialSteps = null;
+
+		[SerializeField]
+		private float secondsPerLevel = 30f;
+
+		[SerializeField]
+		private Localizer scoreText = null;
+
+		[SerializeField]
+		private Localizer timeText = null;
+
+		[SerializeField]
+		private Localizer streakText = null;
+
+		[SerializeField]
+		private float levelEndDelay = 3f;
+
+		[SerializeField]
+		private int maxStreak = 5;
 
 		// Interface //////////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
@@ -63,7 +99,37 @@ namespace com.thinkagaingames.engine {
 		}
 
 		// Implementation /////////////////////////////////////////////////////////
-		private eGameMode NextGameMode {get; set;}
+		private eGameMode GameMode {get; set;}
+
+		private int FlickStartCounter {get; set;}
+
+		private int FlickEndCounter {get; set;}
+
+		private int Score {get; set;}
+
+		private int Stage {get; set;}
+
+		private float Timer {get; set;}
+
+		private int Streak {get; set;}
+
+		private bool IsGameClockRunning {get; set;}
+
+		private void StartNewRound() {
+			Score = 0;
+			Timer = secondsPerLevel;
+			Stage = 0;
+			Streak = 0;
+			IsGameClockRunning = true;
+			FlickStartCounter = 0;
+			FlickEndCounter = 0;
+
+			scoreText.Refresh();
+			timeText.Refresh();
+			streakText.Refresh();
+
+			Switchboard.Broadcast("BeginRound", GameMode == eGameMode.TUTORIAL);
+		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Awake() {
@@ -78,12 +144,47 @@ namespace com.thinkagaingames.engine {
 			Instance = null;
 		}
 
+		protected void FixedUpdate() {
+			if (IsGameClockRunning) {
+				Timer -= Time.fixedDeltaTime;
+
+				if (Timer <= 0f) {
+					// TODO: end the round.
+					EndStage();
+				}
+
+				timeText.Refresh();
+			}
+		}
+
+		protected void EndStage() {
+			DisableTouchInput();
+			StopGameClock();
+			Timer = 0f;
+
+			if (GameMode == eGameMode.TUTORIAL) {
+				EndRound();
+			}
+			else {
+				// TODO: Check score and move on to the next stage, if appropriate.
+			}
+		}
+
+		protected void EndRound() {
+			UiDirector.Instance.StartTransition("GameHUD", false);
+			StartCoroutine("CountDownToMainMenu");
+		}
+
 		protected override void Start() {
 			base.Start();
 
 			Assert.That(cameraWorld != null, "World camera not found!", gameObject);
 			Assert.That(cameraUI != null, "UI camera not found!", gameObject);
 			Assert.That(cameraSplash != null, "Splash camera not found!", gameObject);
+
+			Assert.That(scoreText != null, "Score text not defined!", gameObject);
+			Assert.That(timeText != null, "Time text not defined!", gameObject);
+			Assert.That(streakText != null, "Streak text not defined!", gameObject);
 
 			StartCoroutine("PrepForInit");
 
@@ -94,6 +195,11 @@ namespace com.thinkagaingames.engine {
 
 		public override void OnStartGame() {
 			UiDirector.Instance.StartTransition("BlackoutPanels", true);
+
+			Switchboard.AddListener("FlickStart", OnFlickStart);
+			Switchboard.AddListener("FlickEnd", OnFlickEnd);
+			Switchboard.AddListener("PlayerScored", OnPlayerScored);
+			Switchboard.AddListener("PlayerMissed", OnPlayerMissed);
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////
@@ -119,17 +225,43 @@ namespace com.thinkagaingames.engine {
 			initList.Clear();
 		}
 
+		IEnumerator CountDownToMainMenu() {
+			yield return new WaitForSeconds(levelEndDelay);
+
+			UiDirector.Instance.ResetHistory();
+			UiDirector.Instance.StartTransition("BlackoutPanels", true);
+		}
+
 		// Button Handlers ////////////////////////////////////////////////////
 		public void MainMenuStartTutorial() {
 			cameraWorld.enabled = true;
-			NextGameMode = eGameMode.TUTORIAL;
+			GameMode = eGameMode.TUTORIAL;
 			UiDirector.Instance.UndoMostRecentTransition();
 		}
 
 		// Message Handlers ///////////////////////////////////////////////////
+		public void OnPlayerMissed(object ignored) {
+			Streak = 0;
+			streakText.Refresh();
+
+			// TODO: play sound/particle.
+		}
+
+		public void OnPlayerScored(object ignored) {
+			Score += 1 + Mathf.Max(1, Streak);
+			scoreText.Refresh();
+
+			Streak += 1;
+			Streak = Mathf.Min(Streak, maxStreak);
+			streakText.Refresh();
+
+			// TODO: play sound?
+		}
+
 		public void ShowTitle(UiDirector.TransitionGroup group) {
 			UiDirector.Instance.StartTransition("TitlePanels", true);
 			cameraSplash.enabled = false;
+			cameraWorld.enabled = false;
 		}
 
 		public void ShowMainMenu(UiDirector.TransitionGroup group) {
@@ -141,27 +273,78 @@ namespace com.thinkagaingames.engine {
 		}
 
 		public void StartGameMode(UiDirector.TransitionGroup group) {
-			switch (NextGameMode) {
+			StartNewRound();
+			
+			switch (GameMode) {
 				case eGameMode.TUTORIAL:
 					// TODO:
-					// Set "tutorial" flag.
 					// Select the correct world configuration.
+					UiDirector.Instance.ResetHistory();
 					UiDirector.Instance.StartTransition("GameHUD", true);
+					IsGameClockRunning = false;
+					DisableTouchInput();
+					UiDirector.Instance.StartTransition("TutorialLesson01", true);
 				break;
 			}
 		}
 
+		public void OnFlickStart(object ignored) {
+			if (GameMode == eGameMode.TUTORIAL) {
+				FlickStartCounter += 1;
+
+				for (int i=0; i<tutorialSteps.Count; ++i) {
+					if (tutorialSteps[i].triggerType == eTutorialStepTrigger.FLICK_START && FlickStartCounter == tutorialSteps[i].flickCount) {
+						UiDirector.Instance.StartTransition(tutorialSteps[i].transitionName, tutorialSteps[i].isTransitionIn);
+						if (tutorialSteps[i].triggerFunction != null && tutorialSteps[i].triggerFunction.Length > 0) {
+							this.Invoke(tutorialSteps[i].triggerFunction, 0f);
+						}
+					}
+				}
+			}
+		}
+
+		public void OnFlickEnd(object ignored) {
+			if (GameMode == eGameMode.TUTORIAL) {
+				FlickEndCounter += 1;
+
+				for (int i=0; i<tutorialSteps.Count; ++i) {
+					if (tutorialSteps[i].triggerType == eTutorialStepTrigger.FLICK_END && FlickEndCounter == tutorialSteps[i].flickCount) {
+						UiDirector.Instance.StartTransition(tutorialSteps[i].transitionName, tutorialSteps[i].isTransitionIn);
+						if (tutorialSteps[i].triggerFunction != null && tutorialSteps[i].triggerFunction.Length > 0) {
+							this.Invoke(tutorialSteps[i].triggerFunction, 0f);
+						}
+					}
+				}
+			}
+		}
+
+		public void StartGameClock() {
+			IsGameClockRunning = true;
+		}
+
+		public void StopGameClock() {
+			IsGameClockRunning = false;
+		}
+
+		public void EnableTouchInput() {
+			Switchboard.Broadcast("EnableTouchInput", null);
+		}
+
+		public void DisableTouchInput() {
+			Switchboard.Broadcast("DisableTouchInput", null);
+		}
+
 		// Chunk Evaluators ///////////////////////////////////////////////////
 		private string GetCurrentScore(string chunk) {
-			return "310";
+			return "" + Score;
 		}
 
 		private string GetCurrentTime(string chunk) {
-			return "0:10";
+			return "0:" + Mathf.RoundToInt(Timer);
 		}
 
 		private string GetCurrentStreak(string chunk) {
-			return "x7";
+			return "x" + Streak;
 		}
 	}
 }

@@ -29,6 +29,13 @@ namespace com.thinkagaingames.engine {
 			public int completionsRemaining = 0;
 			public bool wantsRemove = false;
 
+			public void Reset() {
+				group = null;
+				direction = eTransDirection.UNKNOWN;
+				completionsRemaining = 0;
+				wantsRemove = false;
+			}
+
 			public bool RegisterCompletion(string name) {
 				name = name.ToLower();
 
@@ -82,7 +89,14 @@ namespace com.thinkagaingames.engine {
 			TransitionRecord record = GetUnusedTransitionRecord();
 			record.group = group;
 			record.direction = isTransitionIn ? eTransDirection.IN : eTransDirection.OUT;
-			record.wantsRemove = false;
+
+			// If we are undoing the most recent transition, remove that transition from the history stack.
+			if (!isTransitionIn && transitionHistory.Count > 0 && groupName == transitionHistory[0].group.name && transitionHistory[0].direction == eTransDirection.IN) {
+				record.wantsRemove = true;
+			}
+			else {
+				record.wantsRemove = false;
+			}
 			transitionHistory.Insert(0, record);			
 
 			StartPanelTransitions(record);
@@ -117,6 +131,7 @@ namespace com.thinkagaingames.engine {
 			if (unusedRecords.Count > 0) {
 				record = unusedRecords[0];
 				unusedRecords.RemoveAt(0);
+				record.Reset();
 			}
 			else {
 				record = new TransitionRecord();
@@ -192,7 +207,7 @@ namespace com.thinkagaingames.engine {
 		// Coroutines /////////////////////////////////////////////////////////////
 
 		// Message Handlers ///////////////////////////////////////////////////////
-		public bool OnTransitionComplete(object objPanelName) {
+		public void OnTransitionComplete(object objPanelName) {
 			string panelName = objPanelName as string;
 
 			Assert.That(panelName != null && panelName.Length > 0, "Invalid panel name!", gameObject);
@@ -217,8 +232,6 @@ namespace com.thinkagaingames.engine {
 					}
 				}
 			}
-
-			return true;
 		}
 	}
 }
