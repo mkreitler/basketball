@@ -60,21 +60,23 @@ namespace com.thinkagaingames.engine {
 
 		// Implementation /////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
-		public void TransitionIn() {
+		public void TransitionIn(string groupName) {
 			gameObject.SetActive(true);
 
 			if (NewTransition) {
 				TransitionParam = 0f;
 			}
 
+			TransitionIdentifier = groupName;
 			FixedUpdateState = UpdateTransitionIn;
 		}
 
-		public void TransitionOut() {
+		public void TransitionOut(string groupName) {
 			if (NewTransition) {
 				TransitionParam = 1f;
 			}
 
+			TransitionIdentifier = groupName;
 			FixedUpdateState = UpdateTransitionOut;
 		}
 
@@ -89,6 +91,8 @@ namespace com.thinkagaingames.engine {
 
 		private RectTransform Transform2D {get; set;}
 
+		private string TransitionIdentifier {get; set;}
+
 		private void UpdateTransitionIn() {
 			TransitionParam += Time.fixedDeltaTime / transitionTime;
 			TransitionParam = Mathf.Min(TransitionParam, 1f);
@@ -100,7 +104,7 @@ namespace com.thinkagaingames.engine {
 			if (TransitionParam == 1f) {
 				NewTransition = true;
 				FixedUpdateState = null;
-				Switchboard.Broadcast("TransitionComplete", name);
+				UiDirector.Instance.PanelTransitionComplete(TransitionIdentifier, name);
 			}
 		}
 
@@ -115,7 +119,7 @@ namespace com.thinkagaingames.engine {
 			if (TransitionParam == 0f) {
 				NewTransition = true;
 				FixedUpdateState = null;
-				Switchboard.Broadcast("TransitionComplete", name);
+				UiDirector.Instance.PanelTransitionComplete(TransitionIdentifier, name);
 				gameObject.SetActive(false);
 			}
 		}

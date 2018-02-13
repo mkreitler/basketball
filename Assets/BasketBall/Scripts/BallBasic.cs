@@ -58,6 +58,7 @@ namespace com.thinkagaingames.basketball {
 
 		public void MakeDynamic() {
 			Armed = true;
+			CollisionCount = 0;
 			Switchboard.Broadcast("BallArmed", null);
 			RigidBody.isKinematic = false;
 		}
@@ -94,6 +95,8 @@ namespace com.thinkagaingames.basketball {
 		protected Rigidbody RigidBody {get; set;}
 
 		private bool DoDrag {get; set;}
+
+		private int CollisionCount {get; set;}
 
 		private Hashtable contactSoundsTable = new Hashtable();
 
@@ -172,6 +175,7 @@ namespace com.thinkagaingames.basketball {
 
 		protected void OnCollisionEnter(Collision collision) {
 			if (collision.gameObject != null) {
+				CollisionCount += 1;
 				PlayContactSound(collision.gameObject.tag);
 			}
 		}
@@ -184,6 +188,7 @@ namespace com.thinkagaingames.basketball {
 
 			if (goBall == gameObject && Armed) {
 				Armed = false;
+				SoundSystem.PlaySound("swish");
 				Switchboard.Broadcast("PlayerScored", null);
 			}
 		}

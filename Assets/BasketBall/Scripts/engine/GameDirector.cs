@@ -115,7 +115,7 @@ namespace com.thinkagaingames.engine {
 
 		private bool IsGameClockRunning {get; set;}
 
-		private void StartNewRound() {
+		private void InitializeRound() {
 			Score = 0;
 			Timer = secondsPerLevel;
 			Stage = 0;
@@ -127,8 +127,6 @@ namespace com.thinkagaingames.engine {
 			scoreText.Refresh();
 			timeText.Refresh();
 			streakText.Refresh();
-
-			Switchboard.Broadcast("BeginRound", GameMode == eGameMode.TUTORIAL);
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
@@ -262,6 +260,14 @@ namespace com.thinkagaingames.engine {
 			// TODO: play sound?
 		}
 
+		public void BeginRoundOne() {
+			Switchboard.Broadcast("BeginRound", GameMode == eGameMode.TUTORIAL);
+
+			if (GameMode == eGameMode.TUTORIAL) {
+				UiDirector.Instance.StartTransition("TutorialLesson01", true);
+			}
+		}
+
 		public void ShowTitle(UiDirector.TransitionGroup group, bool transitionedIn) {
 			UiDirector.Instance.StartTransition("TitlePanels", true);
 			cameraSplash.enabled = false;
@@ -278,7 +284,7 @@ namespace com.thinkagaingames.engine {
 		}
 
 		public void StartGameMode(UiDirector.TransitionGroup group, bool transitionedIn) {
-			StartNewRound();
+			InitializeRound();
 			
 			switch (GameMode) {
 				case eGameMode.TUTORIAL:
@@ -288,7 +294,6 @@ namespace com.thinkagaingames.engine {
 					UiDirector.Instance.StartTransition("GameHUD", true);
 					IsGameClockRunning = false;
 					DisableTouchInput();
-					UiDirector.Instance.StartTransition("TutorialLesson01", true);
 				break;
 			}
 		}

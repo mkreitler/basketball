@@ -84,7 +84,7 @@ namespace com.thinkagaingames.engine {
 		public void StartTransition(string groupName, bool isTransitionIn) {
 			TransitionGroup group = GetTransitionGroup(groupName);
 
-			Assert.That(group != null, "Unknown transition group!", gameObject);
+			Assert.That(group != null, "Unknown transition group: " + groupName, gameObject);
 
 			TransitionRecord record = GetUnusedTransitionRecord();
 			record.group = group;
@@ -119,11 +119,53 @@ namespace com.thinkagaingames.engine {
 				transitionHistory.RemoveAt(0);
 			}
 		}
+		public void PanelTransitionComplete(string groupName, string panelName) {
+			Assert.That(groupName != null && groupName.Length > 0, "Invalid group name!", gameObject);
+			Assert.That(panelName != null && panelName.Length > 0, "Invalid panel name!", gameObject);
+			Assert.That(transitionHistory.Count > 0, "Invalid transtion history!", gameObject);
+
+			int recordIndex = -1;
+			TransitionRecord lastTransition = FindLastTransitionForGroup(groupName, out recordIndex);
+			Assert.That(lastTransition != null, "Transition record not found!", gameObject);
+			
+			if (lastTransition.RegisterCompletion(panelName)) {
+				// All panels have transitioned.
+				if (lastTransition.wantsRemove) {
+					transitionHistory.RemoveAt(recordIndex);
+				}
+
+				if (lastTransition.direction == eTransDirection.IN) {
+					if (lastTransition.group.onTransitionInComplete != null) {
+						lastTransition.group.onTransitionInComplete.Invoke(lastTransition.group, true);
+					}
+				}
+				else {
+					if (lastTransition.group.onTransitionOutComplete != null) {
+						lastTransition.group.onTransitionOutComplete.Invoke(lastTransition.group, false);
+					}
+				}
+			}
+		}
 
 		// Implementation /////////////////////////////////////////////////////////
 		private List<TransitionRecord> unusedRecords = new List<TransitionRecord>();
 
 		private List<TransitionRecord> transitionHistory = new List<TransitionRecord>();
+
+		private TransitionRecord FindLastTransitionForGroup(string groupName, out int recordIndex) {
+			TransitionRecord record = null;
+			recordIndex = -1;
+
+			for (int i=0; i<transitionHistory.Count; ++i) {
+				if (transitionHistory[i].group.name == groupName) {
+					record = transitionHistory[i];
+					recordIndex = i;
+					break;
+				}
+			}
+
+			return record;
+		}
 
 		private TransitionRecord GetUnusedTransitionRecord() {
 			TransitionRecord record = null;
@@ -174,10 +216,10 @@ namespace com.thinkagaingames.engine {
 
 			for (int i=0; i<group.panels.Count; ++i) {
 				if (record.direction == eTransDirection.IN) {
-					group.panels[i].TransitionIn();
+					group.panels[i].TransitionIn(group.name);
 				}
 				else {
-					group.panels[i].TransitionOut();
+					group.panels[i].TransitionOut(group.name);
 				}
 
 				record.completionsRemaining += 1;
@@ -196,8 +238,6 @@ namespace com.thinkagaingames.engine {
 
 		protected override void Start() {
 			base.Start();
-
-			Switchboard.AddListener("TransitionComplete", OnTransitionComplete);
 		}
 
 		protected virtual void OnDestroy() {
@@ -207,31 +247,5 @@ namespace com.thinkagaingames.engine {
 		// Coroutines /////////////////////////////////////////////////////////////
 
 		// Message Handlers ///////////////////////////////////////////////////////
-		public void OnTransitionComplete(object objPanelName) {
-			string panelName = objPanelName as string;
-
-			Assert.That(panelName != null && panelName.Length > 0, "Invalid panel name!", gameObject);
-			Assert.That(transitionHistory.Count > 0, "Invalid transtion history!", gameObject);
-
-			TransitionRecord lastTransition = transitionHistory[0];
-			
-			if (lastTransition.RegisterCompletion(panelName)) {
-				// All panels have transitioned.
-				if (lastTransition.wantsRemove) {
-					transitionHistory.RemoveAt(0);
-				}
-
-				if (lastTransition.direction == eTransDirection.IN) {
-					if (lastTransition.group.onTransitionInComplete != null) {
-						lastTransition.group.onTransitionInComplete.Invoke(lastTransition.group, true);
-					}
-				}
-				else {
-					if (lastTransition.group.onTransitionOutComplete != null) {
-						lastTransition.group.onTransitionOutComplete.Invoke(lastTransition.group, false);
-					}
-				}
-			}
-		}
 	}
 }
