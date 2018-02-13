@@ -86,6 +86,10 @@ namespace com.thinkagaingames.engine {
 			Assert.That(cameraSplash != null, "Splash camera not found!", gameObject);
 
 			StartCoroutine("PrepForInit");
+
+			StringTable.RegisterChunkEvaluator("GetCurrentScore", GetCurrentScore);
+			StringTable.RegisterChunkEvaluator("GetCurrentTime", GetCurrentTime);
+			StringTable.RegisterChunkEvaluator("GetCurrentStreak", GetCurrentStreak);
 		}
 
 		public override void OnStartGame() {
@@ -120,7 +124,6 @@ namespace com.thinkagaingames.engine {
 			cameraWorld.enabled = true;
 			NextGameMode = eGameMode.TUTORIAL;
 			UiDirector.Instance.UndoMostRecentTransition();
-			Debug.Log(">>> Starting tutorial!");
 		}
 
 		// Message Handlers ///////////////////////////////////////////////////
@@ -146,6 +149,19 @@ namespace com.thinkagaingames.engine {
 					UiDirector.Instance.StartTransition("GameHUD", true);
 				break;
 			}
+		}
+
+		// Chunk Evaluators ///////////////////////////////////////////////////
+		private string GetCurrentScore(string chunk) {
+			return "310";
+		}
+
+		private string GetCurrentTime(string chunk) {
+			return "0:10";
+		}
+
+		private string GetCurrentStreak(string chunk) {
+			return "x7";
 		}
 	}
 }

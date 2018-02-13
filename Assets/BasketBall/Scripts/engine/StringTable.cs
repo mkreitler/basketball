@@ -18,7 +18,7 @@ namespace com.thinkagaingames.engine {
 			public string value = null;
 		}
 
-		public delegate string chunkEvaluator();
+		public delegate string chunkEvaluator(string chunk);
 
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
@@ -53,9 +53,10 @@ namespace com.thinkagaingames.engine {
 			string value = "";
 
 			if (chunk.StartsWith(FLAG_FUNCTION)) {
-				chunkEvaluator function = functionTable[chunk.Substring(1)] as chunkEvaluator;
+				string subChunk = chunk.Substring(1);
+				chunkEvaluator function = functionTable[subChunk] as chunkEvaluator;
 				if (function != null) {
-					value = function();
+					value = function(subChunk);
 				}
 			}
 			else {
