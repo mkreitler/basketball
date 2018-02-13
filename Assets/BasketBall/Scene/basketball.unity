@@ -11243,7 +11243,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicFadeDuration: 0.5
   newMusicDelay: 0.5
-  songData: []
+  songData:
+  - track: title_track
+    file: {fileID: 8300000, guid: 00efacc21d647425eb79a7934dbacc6b, type: 3}
+  - track: whistle
+    file: {fileID: 8300000, guid: 598d7392e2c8748258180d8eec593011, type: 3}
+  - track: buzzer
+    file: {fileID: 8300000, guid: 09f22c43939764b82804a9ddbff85cf2, type: 3}
 --- !u!4 &1011510388
 Transform:
   m_ObjectHideFlags: 0

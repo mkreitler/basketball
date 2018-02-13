@@ -7,7 +7,7 @@ namespace com.thinkagaingames.engine {
 	public class UiDirector : PausableBehaviour {
 		// Types and Constants ////////////////////////////////////////////////////
 		[System.Serializable]
-		public class TransitionEndEvent : UnityEvent<TransitionGroup> {}
+		public class TransitionEndEvent : UnityEvent<TransitionGroup, bool> {}
 
 		[System.Serializable]
 		public class TransitionGroup {
@@ -223,12 +223,12 @@ namespace com.thinkagaingames.engine {
 
 				if (lastTransition.direction == eTransDirection.IN) {
 					if (lastTransition.group.onTransitionInComplete != null) {
-						lastTransition.group.onTransitionInComplete.Invoke(lastTransition.group);
+						lastTransition.group.onTransitionInComplete.Invoke(lastTransition.group, true);
 					}
 				}
 				else {
 					if (lastTransition.group.onTransitionOutComplete != null) {
-						lastTransition.group.onTransitionOutComplete.Invoke(lastTransition.group);
+						lastTransition.group.onTransitionOutComplete.Invoke(lastTransition.group, false);
 					}
 				}
 			}

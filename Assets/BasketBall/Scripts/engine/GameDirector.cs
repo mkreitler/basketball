@@ -237,14 +237,17 @@ namespace com.thinkagaingames.engine {
 			cameraWorld.enabled = true;
 			GameMode = eGameMode.TUTORIAL;
 			UiDirector.Instance.UndoMostRecentTransition();
+			SoundSystem.FadeOutMusic();
 		}
 
 		// Message Handlers ///////////////////////////////////////////////////
 		public void OnPlayerMissed(object ignored) {
+			if (Streak > 1) {
+				SoundSystem.PlaySound("buzzer");
+			}
+
 			Streak = 0;
 			streakText.Refresh();
-
-			// TODO: play sound/particle.
 		}
 
 		public void OnPlayerScored(object ignored) {
@@ -258,21 +261,22 @@ namespace com.thinkagaingames.engine {
 			// TODO: play sound?
 		}
 
-		public void ShowTitle(UiDirector.TransitionGroup group) {
+		public void ShowTitle(UiDirector.TransitionGroup group, bool transitionedIn) {
 			UiDirector.Instance.StartTransition("TitlePanels", true);
 			cameraSplash.enabled = false;
 			cameraWorld.enabled = false;
+			SoundSystem.PlayMusic("title_track");
 		}
 
-		public void ShowMainMenu(UiDirector.TransitionGroup group) {
+		public void ShowMainMenu(UiDirector.TransitionGroup group, bool transitionedIn) {
 			UiDirector.Instance.StartTransition("MainMenuOptions", true);
 		}
 
-		public void UndoPreviousTransition(UiDirector.TransitionGroup group) {
+		public void UndoPreviousTransition(UiDirector.TransitionGroup group, bool transitionedIn) {
 			UiDirector.Instance.UndoMostRecentTransition();
 		}
 
-		public void StartGameMode(UiDirector.TransitionGroup group) {
+		public void StartGameMode(UiDirector.TransitionGroup group, bool transitionedIn) {
 			StartNewRound();
 			
 			switch (GameMode) {
@@ -320,6 +324,7 @@ namespace com.thinkagaingames.engine {
 
 		public void StartGameClock() {
 			IsGameClockRunning = true;
+			SoundSystem.PlaySound("whistle");
 		}
 
 		public void StopGameClock() {
