@@ -21,7 +21,7 @@ MonoBehaviour:
     detail: {r: 0.18382353, g: 0.18382353, b: 0.18382353, a: 1}
   - name: 
     tag: Untagged
-    normal: {r: 0.007843138, g: 0.31764707, b: 0.34901962, a: 1}
+    normal: {r: 0, g: 0, b: 0, a: 1}
     highlighted: {r: 0.33720806, g: 0.5451219, b: 0.5661765, a: 1}
     pressed: {r: 0.0024870264, g: 0.15379529, b: 0.16911763, a: 1}
     disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
@@ -42,19 +42,33 @@ MonoBehaviour:
     detail: {r: 1, g: 1, b: 1, a: 1}
   - name: 
     tag: 
-    normal: {r: 0.9490196, g: 0.45490196, b: 0.019607844, a: 1}
-    highlighted: {r: 0.9411765, g: 0.69834876, b: 0.4844291, a: 1}
-    pressed: {r: 0.50735295, g: 0.23960431, b: 0.00373054, a: 1}
-    disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
-    detail: {r: 1, g: 1, b: 1, a: 1}
-  - name: 
-    tag: 
     normal: {r: 0.7490196, g: 0.14901961, b: 0.015686275, a: 1}
     highlighted: {r: 0.77205884, g: 0.43763763, b: 0.36332178, a: 1}
     pressed: {r: 0.35294116, g: 0.06841774, b: 0.005190316, a: 1}
     disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     detail: {r: 1, g: 1, b: 1, a: 1}
   effectSets:
+  - name: Shadow
+    tag: 
+    gradient: 0
+    gradientTop: {r: 1, g: 1, b: 1, a: 1}
+    gradientBottom: {r: 0, g: 0, b: 0, a: 1}
+    shadow: 1
+    shadowColor: {r: 0, g: 0, b: 0, a: 1}
+    shadowOffset: {x: 2, y: -2}
+    radialGradient: 0
+    radialColor: {r: 1, g: 1, b: 1, a: 1}
+    centerPosition: {x: 0, y: 0}
+    radius: 100
+    mirrorEffect: 0
+    mirrorScale: 1
+    mirrorOffset: {x: 0, y: 0}
+    mirrorSkew: 0
+    mirrorTop: {r: 1, g: 1, b: 1, a: 1}
+    mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
+    skewEffect: 0
+    skew: 0
+    perspective: 1
   - name: New Effect
     tag: 
     gradient: 0
