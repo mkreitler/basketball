@@ -5461,7 +5461,7 @@ GameObject:
   - component: {fileID: 536938773}
   m_Layer: 0
   m_Name: fence_front
-  m_TagString: Untagged
+  m_TagString: fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9432,7 +9432,7 @@ GameObject:
   - component: {fileID: 606076339}
   m_Layer: 0
   m_Name: fence_rear
-  m_TagString: Untagged
+  m_TagString: fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11287,9 +11287,9 @@ MonoBehaviour:
   - track: fenceHit
     file: {fileID: 8300000, guid: 1631464e53f1247259e75cd77aad48c2, type: 3}
   - track: fenceHit
-    file: {fileID: 8300000, guid: c1eb672fb22484dc28aa269f4b14dac5, type: 3}
+    file: {fileID: 8300000, guid: 297172f92f5d64a3b821d70880d3f368, type: 3}
   - track: fenceHit
-    file: {fileID: 8300000, guid: 420a5699cab584768b75afb6ad3d5f00, type: 3}
+    file: {fileID: 8300000, guid: f413025579e1a40af8499a3318bb7d76, type: 3}
   - track: bboardHit
     file: {fileID: 8300000, guid: 9f2f6ff17534e4542b3fa6d0f55f5e7a, type: 3}
   - track: bboardHit
@@ -13395,7 +13395,7 @@ GameObject:
   - component: {fileID: 1383282380}
   m_Layer: 0
   m_Name: fence_side
-  m_TagString: Untagged
+  m_TagString: fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
