@@ -144,6 +144,7 @@ namespace com.thinkagaingames.basketball {
 			Stage = 0;
 			FlickStartCounter = 0;
 			FlickEndCounter = 0;
+			CurrentStageIndex = 0;
 
 			scoreText.Refresh();
 			timeText.Refresh();
@@ -173,7 +174,13 @@ namespace com.thinkagaingames.basketball {
 		private void ResetStage() {
 			SetGameTime(secondsPerLevel);
 
-			blocker.SetActive(levelProgression[CurrentStageIndex].hasBlocker);
+			if (GameMode == eGameMode.TUTORIAL) {
+				blocker.SetActive(false);
+			}
+			else {
+				blocker.SetActive(levelProgression[CurrentStageIndex].hasBlocker);
+			}
+
 			SetStreak(0);
 			BestStreak = 0;
 			StageScore = 0;
@@ -313,7 +320,6 @@ namespace com.thinkagaingames.basketball {
 		public void MainMenuStartGame() {
 			cameraWorld.enabled = true;
 			GameMode = eGameMode.GAME;
-			CurrentStageIndex = 0;
 			UiDirector.Instance.UndoMostRecentTransition();
 			SoundSystem.FadeOutMusic();
 			SetUpNextStage();
@@ -325,7 +331,6 @@ namespace com.thinkagaingames.basketball {
 			Switchboard.Broadcast("InitStage", stageParams);
 			
 			DisableTouchInput();
-			blocker.SetActive(false);
 			cameraWorld.enabled = true;
 			GameMode = eGameMode.TUTORIAL;
 			UiDirector.Instance.UndoMostRecentTransition();
