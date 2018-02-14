@@ -11,6 +11,9 @@ namespace com.thinkagaingames.engine {
 		[SerializeField]
 		protected Camera worldCamera = null;
 
+		[SerializeField]
+		protected Camera uiCamera = null;
+
 		// Interface //////////////////////////////////////////////////////////////
 
 		public void Resize(Camera resizedCamera) {
@@ -88,6 +91,7 @@ namespace com.thinkagaingames.engine {
 			base.Awake();
 			
 			Assert.That(worldCamera != null, "Undefined world camera!", gameObject);
+			Assert.That(uiCamera != null, "Undefined UI camera!", gameObject);
 		}
 
 		protected virtual void Update() {

@@ -8,31 +8,6 @@ using com.thinkagaingames.engine;
 
 namespace com.thinkagaingames.basketball {
 
-	[System.Serializable]
-	public class StageParameters {
-		public GameObject cameraProxy = null;
-		public float flightTime = 1f;
-		public float lowShotThreshold = 0.4f;
-		public float highShotThreshold = 0.7f;
-		public AnimationCurve lowShotCurve = null;
-		public AnimationCurve highShotCurve = null;
-		public float driftLeftThreshold = 0.015f;
-		public float driftRightTHreshold = 0.2f;
-		public float lateralDriftScalar = 2.5f;
-
-		public StageParameters() {
-			cameraProxy = null;
-			flightTime = 1f;
-			lowShotThreshold = 0.4f;
-			highShotThreshold = 0.7f;
-			lowShotCurve = null;
-			highShotCurve = null;
-			driftLeftThreshold = 0.015f;
-			driftRightTHreshold = 0.2f;
-			lateralDriftScalar = 2.5f;
-		}
-	}
-
 	public class FlickPlane : TouchPlane {
 		// Types and Constants ////////////////////////////////////////////////////
 		private const float EPSILON = 0.01f;
@@ -54,10 +29,7 @@ namespace com.thinkagaingames.basketball {
 		private AnimationCurve highShotCurve = null;
 
 		[SerializeField]
-		private float driftLeftThreshold = 0.015f;
-
-		[SerializeField]
-		private float driftRightThreshold = 0.4f;
+		private float driftThreshold = 2.5f;
 
 		[SerializeField]
 		private float lateralDriftScalar = 2f;
@@ -73,6 +45,12 @@ namespace com.thinkagaingames.basketball {
 		
 		[SerializeField]
 		private float rotationalImpulse = 0f;
+
+		[SerializeField]
+		private RectTransform touchZoneTransform = null;
+
+		[SerializeField]
+		private float viewportDistZ = 5f;
 
 		// Interface //////////////////////////////////////////////////////////////
 		public override void OnFlickStart(Vector2 vScreenPoint, Vector2 vViewportPoint) {
@@ -98,6 +76,15 @@ namespace com.thinkagaingames.basketball {
 				Switchboard.Broadcast("FlickEnd", null);
 				Switchboard.Broadcast("RequestNextBall");
 			}
+		}
+
+		public void Hide() {
+			Image image = gameObject.GetComponent<Image>();
+			Assert.That(image != null, "Image component not found!", gameObject);
+
+			Color color = image.color;
+			color.a = 0f;
+			image.color = color;
 		}
 
 		public void TrackTouchStart() {
@@ -149,17 +136,21 @@ namespace com.thinkagaingames.basketball {
 			vLastPosition = ball.Position;
 		}
 
+		// Ray afterRay;
+		// Ray beforeRay;
+		// Ray velRay;
+
 		private void ComputeFlightPath() {
 			if (target != null && flightTime > 0f) {
 				float aspectCompensator = (float)Screen.height / (float)Screen.width;
 				float normalizedDy = vDisplacementAccumulator.y * Mathf.Sqrt(aspectCompensator) / worldExtentsVertical;
-				float normalizedDx = vDisplacementAccumulator.x / worldExtentsHorizontal;
 
 				// Assume a perfect shot.
 				Vector3 vDelta = target.transform.position - ball.Position;
 				Vector3 vVel = Vector3.zero;
 				Vector3 vCamRight = worldCamera.transform.rotation * Vector3.right;
 				Vector3 vRotImpulse = vCamRight * rotationalImpulse * Random.Range(-1f, 1f);
+				Vector3 vLocalForward = worldCamera.transform.rotation * Vector3.forward;
 
 				// Debug.Log("NormDX: " + normalizedDx + "   NormDY: " + normalizedDy);
 
@@ -177,16 +168,43 @@ namespace com.thinkagaingames.basketball {
 						vDelta = vTargetPos - ball.Position;
 					}
 
-					if (normalizedDx > driftLeftThreshold) {
-						vDelta.x -= lateralDriftScalar * vCamRight.x * (normalizedDx - driftLeftThreshold) * (target.transform.position - ball.Position).magnitude;
+					// Compute lateral accuracy.
+					Vector3 touchZoneOriginViewport = uiCamera.WorldToViewportPoint(touchZoneTransform.position);
+					touchZoneOriginViewport.z = viewportDistZ;
+					
+					Vector3 touchZoneWorldPoint = worldCamera.ViewportToWorldPoint(touchZoneOriginViewport);
+					Vector3 vOriginToTarget = target.transform.position - touchZoneWorldPoint;
+
+					// Project the ideal swipe path onto the screen.
+					vOriginToTarget = vOriginToTarget - Vector3.Dot(vOriginToTarget, vLocalForward) * vLocalForward;
+
+					// Project the player's total path onto the screen.
+					Vector3 vPlayerPath2D = vDisplacementAccumulator - Vector3.Dot(vDisplacementAccumulator, vLocalForward) * vLocalForward;
+
+					vOriginToTarget.Normalize();
+					vPlayerPath2D.Normalize();
+
+					float deviationDot = Vector3.Dot(vOriginToTarget, vPlayerPath2D);
+					float angularDeviation = Mathf.Acos(Mathf.Clamp(deviationDot, -1f, 1f)) * 180f / Mathf.PI;
+					float deviationDirection = Vector3.Dot(Vector3.Cross(vOriginToTarget, vPlayerPath2D), vLocalForward) > 0f ? -1 : 1; // Negative means drifting left. Positive means driving right. Magnitude of 1 means swipe was perpendicular to the desired path.
+
+					// beforeRay.origin = ball.transform.position;
+					// beforeRay.direction = vDelta.normalized;
+
+					if (angularDeviation > driftThreshold * 0.5f) {
+						Quaternion qRot = Quaternion.AngleAxis(deviationDirection * angularDeviation * lateralDriftScalar, Vector3.up);
+						vDelta = qRot * vDelta;
 					}
-					else if (normalizedDx < -driftRightThreshold) {
-						vDelta.x -= lateralDriftScalar * vCamRight.x * (normalizedDx + driftRightThreshold) * (target.transform.position - ball.Position).magnitude;
-					}
+
+					// afterRay.origin = ball.transform.position;
+					// afterRay.direction = vDelta.normalized;
 
 					vVel = vDelta / flightTime;
 
 					vVel.y = vDelta.y / flightTime - 0.5f * Physics.gravity.y * flightTime;
+					
+					// velRay.origin = ball.Position;
+					// velRay.direction = vVel.normalized;
 
 					ball.Launch(vVel * ball.Mass, vRotImpulse);
 				}
@@ -212,6 +230,10 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		protected override void Update() {
+			// Debug.DrawRay(beforeRay.origin, beforeRay.direction, Color.green);
+			// Debug.DrawRay(afterRay.origin, afterRay.direction, Color.blue);
+			// Debug.DrawRay(velRay.origin, velRay.direction, Color.yellow);
+
 			base.Update();
 		}
 
@@ -220,15 +242,15 @@ namespace com.thinkagaingames.basketball {
 
 			Switchboard.AddListener("SetBall", SetBall);
 			Switchboard.AddListener("InitStage", OnInitStage);
-		}
-
-		public override void OnStartGame() {
-			Assert.That(ball != null, "Invalid ball object!", gameObject);
-
 			Switchboard.AddListener("BeginRound", OnBeginRound);
 			Switchboard.AddListener("EndRound", OnEndRound);
 			Switchboard.AddListener("EnableTouchInput", OnEnableTouchInput);
 			Switchboard.AddListener("DisableTouchInput", OnDisableTouchInput);
+		}
+
+		public override void OnStartGame() {
+			Assert.That(ball != null, "Invalid ball object!", gameObject);
+			Assert.That(touchZoneTransform != null, "Touch zone transform not defined!", gameObject);
 
 			gameObject.SetActive(false);
 		}
@@ -248,7 +270,7 @@ namespace com.thinkagaingames.basketball {
 			// Anything to do, here?
 		}
 
-		private void OnEnableTouchInput(object ignored) {
+		private void OnEnableTouchInput(object objStr) {
 			gameObject.SetActive(true);
 		}
 
@@ -265,9 +287,10 @@ namespace com.thinkagaingames.basketball {
 			highShotThreshold = p.highShotThreshold;
 			lowShotCurve = p.lowShotCurve;
 			highShotCurve = p.highShotCurve;
-			driftLeftThreshold = p.driftLeftThreshold;
-			driftRightThreshold = p.driftRightTHreshold;
+			driftThreshold = p.driftThreshold;
 			lateralDriftScalar = p.lateralDriftScalar;
+			rotationalImpulse = p.rotationalImpulse;
+			viewportDistZ = p.viewportDistZ;
 		}
 	}
 }
