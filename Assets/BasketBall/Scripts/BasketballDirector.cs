@@ -43,7 +43,7 @@ namespace com.thinkagaingames.basketball {
 			FLICK_END
 		}
 
-		private const int PASSING_SCORE = 0;
+		private const int PASSING_SCORE = 30;
 
 		[System.Serializable]
 		private class TutorialData {
@@ -64,8 +64,8 @@ namespace com.thinkagaingames.basketball {
 		[SerializeField]
 		private List<TutorialData> tutorialSteps = null;
 
-		// [SerializeField]
-		private const float secondsPerLevel = 3f;
+		[SerializeField]
+		private float secondsPerLevel = 30f;
 
 		[SerializeField]
 		private List<ProgressionInfo> levelProgression = null;

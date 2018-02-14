@@ -47,7 +47,7 @@ namespace com.thinkagaingames.GAME_NAME {
 
 			while (true) {
 				timer += Time.fixedDeltaTime;
-				float param = Mathf.Abs(Mathf.Sin(2f * Mathf.PI * timer / (2f * period)));
+				float param = 1 - (1 + Mathf.Cos(2f * Mathf.PI * timer / (2f * period))) / 2;
 				gameObject.transform.rotation = Quaternion.Slerp(qStart, qEnd, param);
 				yield return new WaitForFixedUpdate();
 			}

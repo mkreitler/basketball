@@ -2399,7 +2399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 174.99997, y: 256.2002}
+  m_AnchoredPosition: {x: 175, y: 256.2002}
   m_SizeDelta: {x: 330, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414724736
@@ -11275,7 +11275,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: ce731fa3fb3c54453ba3ea849af55ad3, type: 3}
-    m_FontSize: 52
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -14569,6 +14569,7 @@ MonoBehaviour:
     transitionName: TutorialLesson03
     isTransitionIn: 0
     triggerFunction: StartGameClock
+  secondsPerLevel: 30
   levelProgression:
   - name: Stage_A
     hasBlocker: 0
@@ -17219,7 +17220,7 @@ MonoBehaviour:
   - key: RES_MESSAGE
     value: '!#GetResultsMessage'
   - key: KEY_TOTAL_SCORE
-    value: Total Score
+    value: Score
 --- !u!114 &1495926875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21917,7 +21918,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 144.99997, y: 174.8999}
+  m_AnchoredPosition: {x: 145, y: 174.8999}
   m_SizeDelta: {x: 265, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1620854841
