@@ -30,9 +30,6 @@ namespace com.thinkagaingames.engine {
 		private static StringTable Instance = null;
 
 		public static string GetString(string fromKey) {
-			if (fromKey == "RES_MESSAGE") {
-				Debug.Log("There!");
-			}
 			return Instance != null ? Instance._GetString(fromKey) : KEY_NOT_FOUND + fromKey;
 		}
 
@@ -50,7 +47,6 @@ namespace com.thinkagaingames.engine {
 		private void BuildStringTable() {
 			for (int i=0; i<stringList.Count; ++i) {
 				Assert.That(!stringTable.Contains(stringList[i].key), "StringTable already contains entry for " + stringList[i].key + "!", gameObject);
-				Debug.Log("Added [" + stringList[i].key + "]   " + stringList[i].value);
 				stringTable.Add(stringList[i].key, stringList[i].value);
 			}
 		}
