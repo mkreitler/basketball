@@ -72,7 +72,7 @@ namespace com.thinkagaingames.engine {
 		public static void RegisterPanel(string newPanelName, UiPanel panel) {
 			newPanelName = newPanelName.ToLower();
 
-			Assert.That(!panels.Contains(newPanelName), "UiPanel::UiPanel name not unique!");
+			Assert.That(!panels.Contains(newPanelName), "UiPanel::UiPanel name '" + newPanelName + "' not unique!");
 			panels[newPanelName] = panel;
 		}
 
@@ -89,14 +89,8 @@ namespace com.thinkagaingames.engine {
 			TransitionRecord record = GetUnusedTransitionRecord();
 			record.group = group;
 			record.direction = isTransitionIn ? eTransDirection.IN : eTransDirection.OUT;
+			record.wantsRemove = false;
 
-			// If we are undoing the most recent transition, remove that transition from the history stack.
-			if (!isTransitionIn && transitionHistory.Count > 0 && groupName == transitionHistory[0].group.name && transitionHistory[0].direction == eTransDirection.IN) {
-				record.wantsRemove = true;
-			}
-			else {
-				record.wantsRemove = false;
-			}
 			transitionHistory.Insert(0, record);			
 
 			StartPanelTransitions(record);

@@ -7,25 +7,39 @@ using UnityEngine.EventSystems;
 using com.thinkagaingames.engine;
 
 namespace com.thinkagaingames.basketball {
+
+	[System.Serializable]
+	public class StageParameters {
+		public GameObject cameraProxy = null;
+		public float flightTime = 1f;
+		public float lowShotThreshold = 0.4f;
+		public float highShotThreshold = 0.7f;
+		public AnimationCurve lowShotCurve = null;
+		public AnimationCurve highShotCurve = null;
+		public float driftLeftThreshold = 0.015f;
+		public float driftRightTHreshold = 0.2f;
+		public float lateralDriftScalar = 2.5f;
+
+		public StageParameters() {
+			cameraProxy = null;
+			flightTime = 1f;
+			lowShotThreshold = 0.4f;
+			highShotThreshold = 0.7f;
+			lowShotCurve = null;
+			highShotCurve = null;
+			driftLeftThreshold = 0.015f;
+			driftRightTHreshold = 0.2f;
+			lateralDriftScalar = 2.5f;
+		}
+	}
+
 	public class FlickPlane : TouchPlane {
 		// Types and Constants ////////////////////////////////////////////////////
 		private const float EPSILON = 0.01f;
 
 		// Editor Variables ///////////////////////////////////////////////////////
 		[SerializeField]
-		private GameObject target = null;
-
-		[SerializeField]
-		private GameObject targetLow = null;
-
-		[SerializeField]
-		private GameObject targetHigh = null;
-
-		[SerializeField]
 		private float flightTime = 1f;
-		
-		[SerializeField]
-		private float rotationalImpulse = 0f;
 
 		[SerializeField]
 		private float lowShotThreshold = 0.3f;
@@ -47,6 +61,18 @@ namespace com.thinkagaingames.basketball {
 
 		[SerializeField]
 		private float lateralDriftScalar = 2f;
+
+		[SerializeField]
+		private GameObject target = null;
+
+		[SerializeField]
+		private GameObject targetLow = null;
+
+		[SerializeField]
+		private GameObject targetHigh = null;
+		
+		[SerializeField]
+		private float rotationalImpulse = 0f;
 
 		// Interface //////////////////////////////////////////////////////////////
 		public override void OnFlickStart(Vector2 vScreenPoint, Vector2 vViewportPoint) {
@@ -193,6 +219,7 @@ namespace com.thinkagaingames.basketball {
 			base.Start();
 
 			Switchboard.AddListener("SetBall", SetBall);
+			Switchboard.AddListener("InitStage", OnInitStage);
 		}
 
 		public override void OnStartGame() {
@@ -218,7 +245,7 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		private void OnEndRound(object ignored) {
-
+			// Anything to do, here?
 		}
 
 		private void OnEnableTouchInput(object ignored) {
@@ -227,6 +254,20 @@ namespace com.thinkagaingames.basketball {
 
 		private void OnDisableTouchInput(object ignored) {
 			gameObject.SetActive(false);
+		}
+
+		private void OnInitStage(object objParams) {
+			StageParameters p = objParams as StageParameters;
+			Assert.That(p != null, "Invalid stage parameters!", gameObject);
+
+			flightTime = p.flightTime;
+			lowShotThreshold = p.lowShotThreshold;
+			highShotThreshold = p.highShotThreshold;
+			lowShotCurve = p.lowShotCurve;
+			highShotCurve = p.highShotCurve;
+			driftLeftThreshold = p.driftLeftThreshold;
+			driftRightThreshold = p.driftRightTHreshold;
+			lateralDriftScalar = p.lateralDriftScalar;
 		}
 	}
 }

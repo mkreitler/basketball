@@ -98,6 +98,8 @@ namespace com.thinkagaingames.basketball {
 
 		private int CollisionCount {get; set;}
 
+		private Renderer Renderer {get; set;}
+
 		private Hashtable contactSoundsTable = new Hashtable();
 
 		private void BuildContactSoundsTable() {
@@ -114,7 +116,7 @@ namespace com.thinkagaingames.basketball {
 		private void PlayContactSound(string surfaceTag) {
 			surfaceTag = surfaceTag.ToLower();
 
-			if (contactSoundsTable.Contains(surfaceTag)) {
+			if (contactSoundsTable.Contains(surfaceTag) && Renderer.isVisible) {
 				ContactSoundData contactData = contactSoundsTable[surfaceTag] as ContactSoundData;
 				Assert.That(contactData != null, "Invalid contact sound data!", gameObject);
 
@@ -128,6 +130,9 @@ namespace com.thinkagaingames.basketball {
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Awake() {
 			base.Awake();
+
+			Renderer = gameObject.GetComponentInChildren<Renderer>(true);
+			Assert.That(Renderer != null, "Renderer component not found!", gameObject);
 
 			RigidBody = gameObject.GetComponent<Rigidbody>();
 			Assert.That(RigidBody != null, "Rigidbody component not found!", gameObject);

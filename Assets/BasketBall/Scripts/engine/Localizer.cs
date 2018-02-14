@@ -25,6 +25,10 @@ namespace com.thinkagaingames.engine {
 
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected void OnEnable() {
+			Refresh();
+		}
+
+		public override void OnStartGame() {
 			if (!Localized) {
 				LocalText = gameObject.GetComponent<Text>();
 				Assert.That(LocalText != null, "Text component not found!", gameObject);
