@@ -43,7 +43,9 @@ namespace com.thinkagaingames.basketball {
 			FLICK_END
 		}
 
-		private const int PASSING_SCORE = 30;
+		private const int PASSING_SCORE = 10;
+
+		private const int STREAK_MULTIPLIER = 2;
 
 		[System.Serializable]
 		private class TutorialData {
@@ -118,6 +120,12 @@ namespace com.thinkagaingames.basketball {
 		private int Score {get; set;}
 
 		private int StageScore {get; set;}
+
+		private int TotalStageScore {
+			get {
+				return (StageScore + BestStreak * STREAK_MULTIPLIER);
+			}
+		}
 
 		private int BestStreak {get; set;}
 
@@ -232,7 +240,7 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		public void GameOnOrGameOver() {
-			if (CurrentStageIndex >= levelProgression.Count || StageScore < PASSING_SCORE) {
+			if (CurrentStageIndex >= levelProgression.Count || TotalStageScore < PASSING_SCORE) {
 				UiDirector.Instance.ResetHistory();
 
 				// Show game over message and return to main menu.
@@ -519,7 +527,7 @@ namespace com.thinkagaingames.basketball {
 		private string GetResultsMessage(string chunk) {
 			string message = null;
 
-			if (StageScore < PASSING_SCORE) {
+			if (TotalStageScore < PASSING_SCORE) {
 				message = StringTable.GetString("KEY_GAME_OVER");
 			}
 			else if (CurrentStageIndex >= levelProgression.Count) {

@@ -17182,7 +17182,7 @@ MonoBehaviour:
   - key: TUT_LESSON_02
     value: Swipe toward<br>basket to throw.
   - key: TUT_LESSON_03
-    value: Score 30 points<br>in 30 seconds.
+    value: Score 10 points<br>in 30 seconds.
   - key: TITLE_HEADER
     value: HotShotz
   - key: TITLE_FOOTER
