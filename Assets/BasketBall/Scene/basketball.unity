@@ -2399,7 +2399,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 175, y: 256.2002}
+  m_AnchoredPosition: {x: 174.99997, y: 256.2002}
   m_SizeDelta: {x: 330, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414724736
@@ -11228,6 +11228,7 @@ GameObject:
   - component: {fileID: 732064455}
   - component: {fileID: 732064457}
   - component: {fileID: 732064456}
+  - component: {fileID: 732064458}
   m_Layer: 0
   m_Name: TextTitle
   m_TagString: Untagged
@@ -11285,13 +11286,24 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: RES_TITLE
+  m_Text: RES_TOTAL_SCORE
 --- !u!222 &732064457
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 732064454}
+--- !u!114 &732064458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 732064454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529c2d11379b042ffb9994a63ee7a84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &775069971
 Prefab:
   m_ObjectHideFlags: 0
@@ -14557,7 +14569,6 @@ MonoBehaviour:
     transitionName: TutorialLesson03
     isTransitionIn: 0
     triggerFunction: StartGameClock
-  secondsPerLevel: 30
   levelProgression:
   - name: Stage_A
     hasBlocker: 0
@@ -15747,6 +15758,7 @@ GameObject:
   - component: {fileID: 1307068144}
   - component: {fileID: 1307068146}
   - component: {fileID: 1307068145}
+  - component: {fileID: 1307068147}
   m_Layer: 0
   m_Name: TextStageMessage
   m_TagString: Untagged
@@ -15761,7 +15773,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1307068143}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -114.99999, z: 0}
+  m_LocalPosition: {x: 0, y: -115.00001, z: 0}
   m_LocalScale: {x: 1.00056, y: 1.00056, z: 1.00056}
   m_Children: []
   m_Father: {fileID: 161613251}
@@ -15769,7 +15781,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -115}
+  m_AnchoredPosition: {x: 0, y: -115.00001}
   m_SizeDelta: {x: 283.6, y: 69.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1307068145
@@ -15798,7 +15810,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 48
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -15811,6 +15823,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1307068143}
+--- !u!114 &1307068147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1307068143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529c2d11379b042ffb9994a63ee7a84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1328729598
 GameObject:
   m_ObjectHideFlags: 0
@@ -15821,6 +15844,7 @@ GameObject:
   - component: {fileID: 1328729599}
   - component: {fileID: 1328729601}
   - component: {fileID: 1328729600}
+  - component: {fileID: 1328729602}
   m_Layer: 0
   m_Name: TextStageScore
   m_TagString: Untagged
@@ -15872,19 +15896,30 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 48
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: RES_STAGE_SCORE
+  m_Text: RES_SHOT_SCORE
 --- !u!222 &1328729601
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1328729598}
+--- !u!114 &1328729602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1328729598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529c2d11379b042ffb9994a63ee7a84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1349571890
 Prefab:
   m_ObjectHideFlags: 0
@@ -16914,7 +16949,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1192429878}
-          m_MethodName: BeginRound
+          m_MethodName: ShowGameHud
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -17099,6 +17134,30 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: com.thinkagaingames.engine.UiDirector+TransitionEndEvent, Assembly-CSharp,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - name: ResultsPanel
+    panels:
+    - {fileID: 161613254}
+    onTransitionInComplete:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: com.thinkagaingames.engine.UiDirector+TransitionEndEvent, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    onTransitionOutComplete:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1192429878}
+          m_MethodName: GameOnOrGameOver
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: com.thinkagaingames.engine.UiDirector+TransitionEndEvent, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1495926874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17139,6 +17198,28 @@ MonoBehaviour:
     value: '!#GetCurrentScore'
   - key: HUD_STREAK_VALUE
     value: '!#GetCurrentStreak'
+  - key: RES_TOTAL_SCORE
+    value: '!#GetTotalScore'
+  - key: RES_SHOT_SCORE
+    value: '!#GetShotScore'
+  - key: RES_STREAK_BONUS
+    value: '!#GetStreakBonus'
+  - key: RES_STAGE_SCORE
+    value: '!#GetStageScore'
+  - key: KEY_SHOT_SCORE
+    value: Shot Score
+  - key: KEY_GOOD_JOB
+    value: Good Job!
+  - key: KEY_GAME_OVER
+    value: Game Over
+  - key: KEY_STAGE_SCORE
+    value: Stage Score
+  - key: KEY_STREAK_BONUS
+    value: Streak Bonus
+  - key: RES_MESSAGE
+    value: '!#GetResultsMessage'
+  - key: KEY_TOTAL_SCORE
+    value: Total Score
 --- !u!114 &1495926875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21836,7 +21917,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 145, y: 174.8999}
+  m_AnchoredPosition: {x: 144.99997, y: 174.8999}
   m_SizeDelta: {x: 265, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1620854841
@@ -25791,6 +25872,7 @@ GameObject:
   - component: {fileID: 1740367130}
   - component: {fileID: 1740367132}
   - component: {fileID: 1740367131}
+  - component: {fileID: 1740367133}
   m_Layer: 0
   m_Name: TextStageTotalScore
   m_TagString: Untagged
@@ -25842,19 +25924,30 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 48
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: HUD_SCORE_VALUE
+  m_Text: RES_STAGE_SCORE
 --- !u!222 &1740367132
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1740367129}
+--- !u!114 &1740367133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1740367129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529c2d11379b042ffb9994a63ee7a84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1740619605
 GameObject:
   m_ObjectHideFlags: 0
@@ -26937,6 +27030,7 @@ GameObject:
   - component: {fileID: 1885425828}
   - component: {fileID: 1885425830}
   - component: {fileID: 1885425829}
+  - component: {fileID: 1885425831}
   m_Layer: 0
   m_Name: TextStagePassFail
   m_TagString: Untagged
@@ -26988,19 +27082,30 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 48
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: RES_PASS_FAIL
+  m_Text: RES_STREAK_BONUS
 --- !u!222 &1885425830
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1885425827}
+--- !u!114 &1885425831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1885425827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529c2d11379b042ffb9994a63ee7a84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1891392731
 GameObject:
   m_ObjectHideFlags: 0

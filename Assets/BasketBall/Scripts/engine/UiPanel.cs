@@ -61,6 +61,8 @@ namespace com.thinkagaingames.engine {
 		// Implementation /////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
 		public void TransitionIn(string groupName) {
+			RefreshLocalizers();
+			
 			gameObject.SetActive(true);
 
 			if (NewTransition) {
@@ -151,6 +153,13 @@ namespace com.thinkagaingames.engine {
 
 		private void ResolveSlide(float param, RectTransform onScreenTransform) {
 			Transform2D.localPosition = Vector3.Lerp(OffScreenLocalPosition, onScreenTransform.localPosition, param);
+		}
+
+		private void RefreshLocalizers() {
+			Localizer[] localizers = gameObject.GetComponentsInChildren<Localizer>();
+			for (int i=0; i<localizers.Length; ++i) {
+				localizers[i].Refresh();
+			}
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////

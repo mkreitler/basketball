@@ -43,7 +43,7 @@ namespace com.thinkagaingames.basketball {
 			FLICK_END
 		}
 
-		private const int PASSING_SCORE = 30;
+		private const int PASSING_SCORE = 0;
 
 		[System.Serializable]
 		private class TutorialData {
@@ -64,8 +64,8 @@ namespace com.thinkagaingames.basketball {
 		[SerializeField]
 		private List<TutorialData> tutorialSteps = null;
 
-		[SerializeField]
-		private float secondsPerLevel = 30f;
+		// [SerializeField]
+		private const float secondsPerLevel = 3f;
 
 		[SerializeField]
 		private List<ProgressionInfo> levelProgression = null;
@@ -119,6 +119,8 @@ namespace com.thinkagaingames.basketball {
 
 		private int StageScore {get; set;}
 
+		private int BestStreak {get; set;}
+
 		private int Stage {get; set;}
 
 		private float Timer {get; set;}
@@ -129,17 +131,11 @@ namespace com.thinkagaingames.basketball {
 
 		private bool IsGameClockRunning {get; set;}
 
-		private bool WantsGameOver {get; set;}
-
 		private void InitializeRound() {
 			Score = 0;
-			SetGameTime(secondsPerLevel);
 			Stage = 0;
-			Streak = 0;
-			IsGameClockRunning = true;
 			FlickStartCounter = 0;
 			FlickEndCounter = 0;
-			WantsGameOver = false;
 
 			scoreText.Refresh();
 			timeText.Refresh();
@@ -163,11 +159,16 @@ namespace com.thinkagaingames.basketball {
 			StageParameters stageParams = GetStageParameters(levelProgression[CurrentStageIndex].name);
 			Assert.That(stageParams != null, "Invalid state params!", gameObject);
 			Switchboard.Broadcast("InitStage", stageParams);
+			ResetStage();
+		}
+
+		private void ResetStage() {
+			SetGameTime(secondsPerLevel);
 
 			blocker.SetActive(levelProgression[CurrentStageIndex].hasBlocker);
 			SetStreak(0);
+			BestStreak = 0;
 			StageScore = 0;
-			SetGameTime(secondsPerLevel);
 		}
 
 		// Interfaces /////////////////////////////////////////////////////////////
@@ -199,9 +200,12 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		protected void EndStage() {
+			SoundSystem.PlaySound("whistle");
+
 			DisableTouchInput();
 			StopGameClock();
 			SetGameTime(0f);
+			Score += StageScore + BestStreak * 2;
 			
 			Switchboard.Broadcast("StageEnded", null);
 
@@ -214,12 +218,20 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		private IEnumerator DisplayResultsAndWait() {
-			Debug.Log(">>> SHOW LEVEL RESULTS <<<");
+			CurrentStageIndex += 1;
 			UiDirector.Instance.StartTransition("GameHUD", false);
+			UiDirector.Instance.StartTransition("ResultsPanel", true);
 
 			yield return new WaitForSeconds(END_OF_LEVEL_DELAY);
 
-			CurrentStageIndex += 1;
+			UiDirector.Instance.UndoMostRecentTransition();
+		}
+
+		public void ShowGameHud() {
+			UiDirector.Instance.StartTransition("GameHUD", true);
+		}
+
+		public void GameOnOrGameOver() {
 			if (CurrentStageIndex >= levelProgression.Count || StageScore < PASSING_SCORE) {
 				UiDirector.Instance.ResetHistory();
 
@@ -227,14 +239,14 @@ namespace com.thinkagaingames.basketball {
 				UiDirector.Instance.StartTransition("BlackoutPanels", true);
 			}
 			else {
-				UiDirector.Instance.StartTransition("BlackoutEndOfLevel", true);
+				UiDirector.Instance.StartTransition("BlackoutLevelEnd", true);
 			}
 		}
 
 		public void PrepNextStage() {
 			// Show the next level.
 			SetUpNextStage();
-			UiDirector.Instance.StartTransition("BlackoutEndOfLevel", false);
+			UiDirector.Instance.StartTransition("BlackoutLevelEnd", false);
 		}
 
 		protected void EndTutorial() {
@@ -262,6 +274,11 @@ namespace com.thinkagaingames.basketball {
 			StringTable.RegisterChunkEvaluator("GetCurrentScore", GetCurrentScore);
 			StringTable.RegisterChunkEvaluator("GetCurrentTime", GetCurrentTime);
 			StringTable.RegisterChunkEvaluator("GetCurrentStreak", GetCurrentStreak);
+			StringTable.RegisterChunkEvaluator("GetShotScore", GetShotScore);
+			StringTable.RegisterChunkEvaluator("GetStreakBonus", GetStreakBonus);
+			StringTable.RegisterChunkEvaluator("GetTotalScore", GetTotalScore);
+			StringTable.RegisterChunkEvaluator("GetStageScore", GetStageScore);
+			StringTable.RegisterChunkEvaluator("GetResultsMessage", GetResultsMessage);
 		}
 
 		public override void OnStartGame() {
@@ -303,6 +320,7 @@ namespace com.thinkagaingames.basketball {
 			cameraWorld.enabled = true;
 			GameMode = eGameMode.TUTORIAL;
 			UiDirector.Instance.UndoMostRecentTransition();
+			ResetStage();
 			SoundSystem.FadeOutMusic();
 		}
 
@@ -352,12 +370,12 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		public void OnPlayerScored(object ignored) {
-			Score += 2;
 			StageScore += 2;
 			scoreText.Refresh();
 
 			Streak += 1;
 			Streak = Mathf.Min(Streak, maxStreak);
+			BestStreak = Mathf.Max(Streak, BestStreak);
 			streakText.Refresh();
 
 			// TODO: play sound?
@@ -471,7 +489,7 @@ namespace com.thinkagaingames.basketball {
 
 		// Chunk Evaluators ///////////////////////////////////////////////////
 		private string GetCurrentScore(string chunk) {
-			return "" + Score;
+			return "" + StageScore;
 		}
 
 		private string GetCurrentTime(string chunk) {
@@ -480,6 +498,38 @@ namespace com.thinkagaingames.basketball {
 
 		private string GetCurrentStreak(string chunk) {
 			return "x" + Streak;
+		}
+
+		private string GetShotScore(string chunk) {
+			return StringTable.GetString("KEY_SHOT_SCORE") + ": " + StageScore;
+		}
+
+		private string GetStreakBonus(string chunk) {
+			return StringTable.GetString("KEY_STREAK_BONUS") + ": " + (BestStreak * 2);
+		}
+
+		private string GetTotalScore(string chunk) {
+			return StringTable.GetString("KEY_TOTAL_SCORE") + ": " + Score;
+		}
+
+		private string GetStageScore(string chunk) {
+			return StringTable.GetString("KEY_STAGE_SCORE") + ": " + (StageScore + BestStreak * 2);
+		}
+
+		private string GetResultsMessage(string chunk) {
+			string message = null;
+
+			if (StageScore < PASSING_SCORE) {
+				message = StringTable.GetString("KEY_GAME_OVER");
+			}
+			else if (CurrentStageIndex >= levelProgression.Count) {
+				message = StringTable.GetString("KEY_GAME_OVER");
+			}
+			else {
+				message = StringTable.GetString("KEY_GOOD_JOB");
+			}
+
+			return message;
 		}
 	}
 }
