@@ -325,6 +325,7 @@ namespace com.thinkagaingames.basketball {
 			Switchboard.Broadcast("InitStage", stageParams);
 			
 			DisableTouchInput();
+			blocker.SetActive(false);
 			cameraWorld.enabled = true;
 			GameMode = eGameMode.TUTORIAL;
 			UiDirector.Instance.UndoMostRecentTransition();
