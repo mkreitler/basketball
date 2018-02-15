@@ -71,7 +71,8 @@ namespace com.thinkagaingames.basketball {
 			if (TrackingTouch && gameObject.activeSelf) {
 				base.OnFlickEnd(vScreenPoint, vViewportPoint);
 				ball.MakeDynamic();
-				ComputeFlightPath();
+				// ComputeFlightPath();
+				ComputeFlightPathV2();
 				TrackingTouch = false;
 				Switchboard.Broadcast("FlickEnd", null);
 				Switchboard.Broadcast("RequestNextBall");
@@ -104,6 +105,9 @@ namespace com.thinkagaingames.basketball {
 		protected bool TrackingTouch {get; set;}
 		protected Vector3 vLastRayHit {get; set;}
 
+		protected Vector3 FirstHitPoint {get; set;}
+		protected Vector3 LastHitPoint {get; set;}
+
 		protected override void OnRayHit(RaycastHit hitInfo) {
 			ball.MoveTo(hitInfo.point);
 
@@ -113,6 +117,7 @@ namespace com.thinkagaingames.basketball {
 				vDisplacementAccumulator = Vector3.zero;
 				vCurlAccumulator = Vector3.zero;
 				LaunchTime = 0f;
+				FirstHitPoint = hitInfo.point;
 			}
 			else {
 				Vector3 vDisplacement = ball.Position - vLastPosition;
@@ -130,6 +135,7 @@ namespace com.thinkagaingames.basketball {
 				LaunchTime += Time.deltaTime;
 
 				vLastDirection = vDisplacement;
+				LastHitPoint = hitInfo.point;
 			}
 
 			vLastRayHit = hitInfo.point;
@@ -139,6 +145,15 @@ namespace com.thinkagaingames.basketball {
 		// Ray afterRay;
 		// Ray beforeRay;
 		// Ray velRay;
+
+		private void ComputeFlightPathV2() {
+			Vector3 screenPosStart = worldCamera.WorldToScreenPoint(FirstHitPoint);
+			Vector3 screenPosEnd = worldCamera.WorldToScreenPoint(LastHitPoint);
+
+			float swipeDistance = (screenPosEnd - screenPosStart).magnitude / Screen.dpi;
+
+			Debug.Log(">>> Swipe Dist: " + swipeDistance);
+		}
 
 		private void ComputeFlightPath() {
 			if (target != null && flightTime > 0f) {

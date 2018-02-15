@@ -105,6 +105,9 @@ namespace com.thinkagaingames.basketball {
 		[SerializeField]
 		private GameObject blocker = null;
 
+		[SerializeField]
+		private GameObject UIbackground = null;
+
 		// Interface //////////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
 
@@ -264,6 +267,12 @@ namespace com.thinkagaingames.basketball {
 			UiDirector.Instance.StartTransition("BlackoutLevelEnd", false);
 		}
 
+		public void TransitionToGameScreen() {
+			// Show the next level.
+			SetUpNextStage();
+			UiDirector.Instance.StartTransition("BlackoutPanels", true);
+		}
+
 		protected void EndTutorial() {
 			UiDirector.Instance.StartTransition("GameHUD", false);
 			StartCoroutine("CountDownToMainMenu");
@@ -279,6 +288,7 @@ namespace com.thinkagaingames.basketball {
 			Assert.That(scoreText != null, "Score text not defined!", gameObject);
 			Assert.That(timeText != null, "Time text not defined!", gameObject);
 			Assert.That(streakText != null, "Streak text not defined!", gameObject);
+			Assert.That(UIbackground != null, "UI Background not defined!", gameObject);
 
 			Assert.That(touchZone != null, "Invalid touch zone!", gameObject);
 
@@ -297,7 +307,7 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		public override void OnStartGame() {
-			UiDirector.Instance.StartTransition("BlackoutPanels", true);
+			ShowTitle(null, true);
 
 			Switchboard.AddListener("FlickStart", OnFlickStart);
 			Switchboard.AddListener("FlickEnd", OnFlickEnd);
@@ -404,6 +414,11 @@ namespace com.thinkagaingames.basketball {
 			else {
 				BeginNormalRound();
 			}
+		}
+
+		public void HideUiBackground() {
+			UIbackground.SetActive(false);
+			UiDirector.Instance.StartTransition("BlackoutPanels", false);
 		}
 
 		public void ShowTitle(UiDirector.TransitionGroup group, bool transitionedIn) {
