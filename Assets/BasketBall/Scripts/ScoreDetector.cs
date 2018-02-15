@@ -73,7 +73,7 @@ namespace com.thinkagaingames.basketball {
 
 		// Message Handlers ///////////////////////////////////////////////////////
 		public void OnPlayerScored(object ignored) {
-			scoreParticle.Play();
+			// scoreParticle.Play();
 		}
 
 		public void OnBallArmed(object ignored) {

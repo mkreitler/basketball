@@ -254,7 +254,7 @@ namespace com.thinkagaingames.basketball {
 				UiDirector.Instance.ResetHistory();
 
 				// Show game over message and return to main menu.
-				UiDirector.Instance.StartTransition("BlackoutPanels", true);
+				UiDirector.Instance.StartTransition("BlackoutPanelsRoundEnd", true);
 			}
 			else {
 				UiDirector.Instance.StartTransition("BlackoutLevelEnd", true);
@@ -323,7 +323,7 @@ namespace com.thinkagaingames.basketball {
 			yield return new WaitForSeconds(levelEndDelay);
 
 			UiDirector.Instance.ResetHistory();
-			UiDirector.Instance.StartTransition("BlackoutPanels", true);
+			UiDirector.Instance.StartTransition("BlackoutPanelsRoundEnd", true);
 		}
 
 		// Button Handlers ////////////////////////////////////////////////////
@@ -421,7 +421,13 @@ namespace com.thinkagaingames.basketball {
 			UiDirector.Instance.StartTransition("BlackoutPanels", false);
 		}
 
+		public void TransitionToMenu() {
+			UIbackground.SetActive(true);
+			UiDirector.Instance.UndoMostRecentTransition();
+		}
+
 		public void ShowTitle(UiDirector.TransitionGroup group, bool transitionedIn) {
+			UiDirector.Instance.ResetHistory();
 			UiDirector.Instance.StartTransition("TitlePanels", true);
 			cameraSplash.enabled = false;
 			cameraWorld.enabled = false;

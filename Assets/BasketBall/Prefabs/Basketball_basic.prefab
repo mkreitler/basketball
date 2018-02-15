@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1812181829591018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 12.387729, y: -105.70949, z: -87.49444}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4356285312218770}
@@ -187,6 +187,7 @@ MonoBehaviour:
   - surface: fence
     sound: fenceHit
     minRepeatInterval: 0.33
+  vanisher: {fileID: 0}
 --- !u!135 &135282326738579190
 SphereCollider:
   m_ObjectHideFlags: 1

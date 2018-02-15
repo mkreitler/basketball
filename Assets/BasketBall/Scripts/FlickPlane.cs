@@ -71,8 +71,8 @@ namespace com.thinkagaingames.basketball {
 			if (TrackingTouch && gameObject.activeSelf) {
 				base.OnFlickEnd(vScreenPoint, vViewportPoint);
 				ball.MakeDynamic();
-				// ComputeFlightPath();
-				ComputeFlightPathV2();
+				ComputeFlightPath();
+				// ComputeFlightPathV2();
 				TrackingTouch = false;
 				Switchboard.Broadcast("FlickEnd", null);
 				Switchboard.Broadcast("RequestNextBall");

@@ -140,6 +140,7 @@ namespace com.thinkagaingames.basketball {
 			BuildContactSoundsTable();
 
 			Switchboard.AddListener("BallInGoal", OnBallInGoal);
+			Switchboard.AddListener("InitStage", OnInitStage);
 			Switchboard.AddListener("StageEnded", OnStageEnded);
 		}
 
@@ -194,13 +195,21 @@ namespace com.thinkagaingames.basketball {
 			if (goBall == gameObject && Armed) {
 				Armed = false;
 				SoundSystem.PlaySound("swish");
-				Switchboard.Broadcast("PlayerScored", null);
+				Switchboard.Broadcast("PlayerScored", gameObject.transform.position);
+				MakeKinematic();
+				gameObject.transform.localPosition = Vector3.zero;
 			}
+		}
+
+		public void OnInitStage(object ignored) {
+			gameObject.transform.localPosition = Vector3.zero;
+			gameObject.SetActive(true);
 		}
 
 		public void OnStageEnded(object ignored) {
 			MakeDynamic();
 			Armed = false;
+			gameObject.SetActive(false);
 		}
 	}
 }
