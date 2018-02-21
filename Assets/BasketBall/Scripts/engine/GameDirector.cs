@@ -81,10 +81,17 @@ namespace com.thinkagaingames.engine {
 			Assert.That(cameraUI != null, "UI camera not found!", gameObject);
 			Assert.That(cameraSplash != null, "Splash camera not found!", gameObject);
 
-			StartCoroutine("PrepForInit");
+			Assert.That(gameObject.activeSelf, "GameObject not active!", gameObject);
+			StartCoroutine("LoadResources");
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////
+		protected virtual IEnumerator LoadResources() {
+			// Override in child classes.
+			yield return new WaitForSeconds(0);
+			StartCoroutine("PrepForInit");
+		}
+
 		IEnumerator PrepForInit() {
 			bool isWaitingForInit = true;
 

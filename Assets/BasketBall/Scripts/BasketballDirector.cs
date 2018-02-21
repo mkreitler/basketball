@@ -8,7 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Gamestrap;
+using UnityEngine.Networking;
 using com.thinkagaingames.engine;
 
 namespace com.thinkagaingames.basketball {
@@ -107,6 +108,9 @@ namespace com.thinkagaingames.basketball {
 
 		[SerializeField]
 		private GameObject UIbackground = null;
+
+		[SerializeField]
+		private string baseResourceURI = null;
 
 		// Interface //////////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
@@ -324,6 +328,38 @@ namespace com.thinkagaingames.basketball {
 
 			UiDirector.Instance.ResetHistory();
 			UiDirector.Instance.StartTransition("BlackoutPanelsRoundEnd", true);
+		}
+
+		protected override IEnumerator LoadResources() {
+			string uri = baseResourceURI + "0" + Random.Range(1,4);
+			Debug.Log(">>> URI: " + uri.ToString());
+
+			using (UnityWebRequest uwr = UnityWebRequest.GetAssetBundle(uri))
+			{
+				yield return uwr.SendWebRequest();
+
+				if (uwr.isNetworkError || uwr.isHttpError)
+				{
+					Debug.Log(uwr.error);
+				}
+				else
+				{
+					// Get downloaded asset bundle
+					AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(uwr);
+					Sprite mainMenuLogo = bundle.LoadAsset<Sprite>("logo_main_page");
+					Sprite backboardLogo = bundle.LoadAsset<Sprite>("logo_backboard");
+					GamestrapTheme uiTheme = bundle.LoadAsset<GamestrapTheme>("UiTheme");
+
+					if (uiTheme != null) {
+						uiTheme.ApplyTheme();
+					}
+
+					Switchboard.Broadcast("Set_logo_main_page", mainMenuLogo);
+					Switchboard.Broadcast("Set_logo_backboard", backboardLogo);
+				}
+			}
+
+			yield return base.LoadResources();
 		}
 
 		// Button Handlers ////////////////////////////////////////////////////

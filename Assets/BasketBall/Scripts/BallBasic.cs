@@ -59,16 +59,10 @@ namespace com.thinkagaingames.basketball {
 		public void MakeDynamic() {
 			Armed = true;
 			CollisionCount = 0;
+			DoDrag = false;
 			Switchboard.Broadcast("BallArmed", null);
 			RigidBody.isKinematic = false;
-		}
-
-		public void EnteredGoal() {
-			DoDrag = true;
-		}
-
-		public void ExitedGoal() {
-			DoDrag = false;
+			EnteredGoal = false;
 		}
 
 		public void MoveTo(Vector3 vPoint) {
@@ -101,6 +95,8 @@ namespace com.thinkagaingames.basketball {
 		private Renderer Renderer {get; set;}
 
 		private Hashtable contactSoundsTable = new Hashtable();
+
+		private bool EnteredGoal {get; set;}
 
 		private void BuildContactSoundsTable() {
 			for (int i=0; i<contactSounds.Count; ++i) {
@@ -139,9 +135,11 @@ namespace com.thinkagaingames.basketball {
 
 			BuildContactSoundsTable();
 
-			Switchboard.AddListener("BallInGoal", OnBallInGoal);
 			Switchboard.AddListener("InitStage", OnInitStage);
 			Switchboard.AddListener("StageEnded", OnStageEnded);
+			Switchboard.AddListener("EnteredGoal", OnEnteredGoal);
+			Switchboard.AddListener("EnteredScoringZone", OnEnteredScoringZone);
+			Switchboard.AddListener("ExitedGoal", OnExitedGoal);
 		}
 
 		protected void OnEnable() {
@@ -189,10 +187,37 @@ namespace com.thinkagaingames.basketball {
 		// Coroutines /////////////////////////////////////////////////////////////
 
 		// Message Handlers ///////////////////////////////////////////////////////
-		public void OnBallInGoal(object objBallGameObject) {
-			GameObject goBall = objBallGameObject as GameObject;
+		public void OnEnteredGoal(object objBall) {
+			GameObject goBallInGoal = objBall as GameObject;
 
-			if (goBall == gameObject && Armed) {
+			if (goBallInGoal == gameObject && Armed && !EnteredGoal) {
+				EnteredGoal = true;
+			}
+		}
+
+		public void OnEnteredScoringZone(object objBall) {
+			GameObject goBallInGoal = objBall as GameObject;
+			
+			if (goBallInGoal == gameObject && Armed && EnteredGoal) {
+				DoDrag = true;
+				OnBallInGoal();
+				Switchboard.Broadcast("BallInGoal", gameObject);
+			}
+			else if (Armed && !EnteredGoal) {
+				Armed = false;
+			}
+		}
+
+		public void OnExitedGoal(object objBall) {
+			GameObject goBallInGoal = objBall as GameObject;
+			
+			if (goBallInGoal == gameObject) {
+				DoDrag = false;
+			}
+		}
+
+		public void OnBallInGoal() {
+			if (Armed) {
 				Armed = false;
 				SoundSystem.PlaySound("swish");
 				Switchboard.Broadcast("PlayerScored", gameObject.transform.position);

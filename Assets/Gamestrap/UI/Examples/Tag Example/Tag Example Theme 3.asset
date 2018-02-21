@@ -14,69 +14,121 @@ MonoBehaviour:
   palette:
   - name: 
     tag: Respawn
-    normal: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-    highlighted: {r: .439999998, g: .439999998, b: .439999998, a: 1}
-    pressed: {r: .0799999982, g: .0799999982, b: .0799999982, a: 1}
-    disabled: {r: .87843138, g: .87843138, b: .87843138, a: 1}
+    normal: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    highlighted: {r: 0.44, g: 0.44, b: 0.44, a: 1}
+    pressed: {r: 0.08, g: 0.08, b: 0.08, a: 1}
+    disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     detail: {r: 1, g: 1, b: 1, a: 1}
   - name: 
     tag: Finish
-    normal: {r: .200000003, g: .200000003, b: .200000003, a: 1}
-    highlighted: {r: .439999998, g: .439999998, b: .439999998, a: 1}
-    pressed: {r: .0799999982, g: .0799999982, b: .0799999982, a: 1}
-    disabled: {r: .87843138, g: .87843138, b: .87843138, a: 1}
+    normal: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    highlighted: {r: 0.44, g: 0.44, b: 0.44, a: 1}
+    pressed: {r: 0.08, g: 0.08, b: 0.08, a: 1}
+    disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     detail: {r: 1, g: 1, b: 1, a: 1}
   - name: Play Now
     tag: MainCamera
     normal: {r: 1, g: 1, b: 1, a: 1}
     highlighted: {r: 1, g: 1, b: 1, a: 1}
-    pressed: {r: .399999976, g: .399999976, b: .399999976, a: 1}
-    disabled: {r: .87843138, g: .87843138, b: .87843138, a: 1}
+    pressed: {r: 0.39999998, g: 0.39999998, b: 0.39999998, a: 1}
+    disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     detail: {r: 0, g: 0, b: 0, a: 1}
   - name: Default Button
     tag: Player
-    normal: {r: .800000012, g: .800000012, b: .800000012, a: 1}
-    highlighted: {r: .860000014, g: .860000014, b: .860000014, a: 1}
-    pressed: {r: .319999993, g: .319999993, b: .319999993, a: 1}
-    disabled: {r: .87843138, g: .87843138, b: .87843138, a: 1}
+    normal: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    highlighted: {r: 0.86, g: 0.86, b: 0.86, a: 1}
+    pressed: {r: 0.32, g: 0.32, b: 0.32, a: 1}
+    disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     detail: {r: 0, g: 0, b: 0, a: 1}
   - name: Background
     tag: GameController
-    normal: {r: .866666675, g: .866666675, b: .866666675, a: 1}
-    highlighted: {r: .906666696, g: .906666696, b: .906666696, a: 1}
-    pressed: {r: .346666664, g: .346666664, b: .346666664, a: 1}
-    disabled: {r: .87843138, g: .87843138, b: .87843138, a: 1}
+    normal: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
+    highlighted: {r: 0.9066667, g: 0.9066667, b: 0.9066667, a: 1}
+    pressed: {r: 0.34666666, g: 0.34666666, b: 0.34666666, a: 1}
+    disabled: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     detail: {r: 1, g: 1, b: 1, a: 1}
   effectSets:
   - name: Play Now
     tag: MainCamera
     gradient: 0
     gradientTop: {r: 1, g: 1, b: 1, a: 1}
-    gradientBottom: {r: .427450985, g: .0823529437, b: .149019614, a: 1}
+    gradientBottom: {r: 0.42745098, g: 0.08235294, b: 0.14901961, a: 1}
     shadow: 0
-    shadowColor: {r: .0431372561, g: .176470593, b: .235294119, a: 1}
+    shadowColor: {r: 0.043137256, g: 0.1764706, b: 0.23529412, a: 1}
     shadowOffset: {x: 0, y: -2}
+    radialGradient: 0
+    radialColor: {r: 1, g: 1, b: 1, a: 1}
+    centerPosition: {x: 0, y: 0}
+    radius: 100
+    mirrorEffect: 0
+    mirrorScale: 1
+    mirrorOffset: {x: 0, y: 0}
+    mirrorSkew: 0
+    mirrorTop: {r: 1, g: 1, b: 1, a: 1}
+    mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
+    skewEffect: 0
+    skew: 0
+    perspective: 1
   - name: Default Button
     tag: Player
     gradient: 0
     gradientTop: {r: 1, g: 1, b: 1, a: 1}
-    gradientBottom: {r: .0866589695, g: .16175586, b: .450980395, a: 1}
+    gradientBottom: {r: 0.08665897, g: 0.16175586, b: 0.4509804, a: 1}
     shadow: 0
-    shadowColor: {r: .0745098069, g: .0431372561, b: .149019614, a: 1}
+    shadowColor: {r: 0.07450981, g: 0.043137256, b: 0.14901961, a: 1}
     shadowOffset: {x: 0, y: -2}
+    radialGradient: 0
+    radialColor: {r: 1, g: 1, b: 1, a: 1}
+    centerPosition: {x: 0, y: 0}
+    radius: 100
+    mirrorEffect: 0
+    mirrorScale: 1
+    mirrorOffset: {x: 0, y: 0}
+    mirrorSkew: 0
+    mirrorTop: {r: 1, g: 1, b: 1, a: 1}
+    mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
+    skewEffect: 0
+    skew: 0
+    perspective: 1
   - name: Icon
     tag: Finish
     gradient: 0
     gradientTop: {r: 1, g: 1, b: 1, a: 1}
-    gradientBottom: {r: .625, g: .228670105, b: .0643382221, a: 1}
+    gradientBottom: {r: 0.625, g: 0.2286701, b: 0.06433822, a: 1}
     shadow: 0
     shadowColor: {r: 0, g: 0, b: 0, a: 1}
     shadowOffset: {x: 2, y: -2}
+    radialGradient: 0
+    radialColor: {r: 1, g: 1, b: 1, a: 1}
+    centerPosition: {x: 0, y: 0}
+    radius: 100
+    mirrorEffect: 0
+    mirrorScale: 1
+    mirrorOffset: {x: 0, y: 0}
+    mirrorSkew: 0
+    mirrorTop: {r: 1, g: 1, b: 1, a: 1}
+    mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
+    skewEffect: 0
+    skew: 0
+    perspective: 1
   - name: Background
     tag: GameController
     gradient: 1
     gradientTop: {r: 1, g: 1, b: 1, a: 1}
-    gradientBottom: {r: .433823526, g: .433823526, b: .433823526, a: 1}
+    gradientBottom: {r: 0.43382353, g: 0.43382353, b: 0.43382353, a: 1}
     shadow: 0
     shadowColor: {r: 0, g: 0, b: 0, a: 1}
     shadowOffset: {x: 2, y: -2}
+    radialGradient: 0
+    radialColor: {r: 1, g: 1, b: 1, a: 1}
+    centerPosition: {x: 0, y: 0}
+    radius: 100
+    mirrorEffect: 0
+    mirrorScale: 1
+    mirrorOffset: {x: 0, y: 0}
+    mirrorSkew: 0
+    mirrorTop: {r: 1, g: 1, b: 1, a: 1}
+    mirrorBottom: {r: 1, g: 1, b: 1, a: 1}
+    skewEffect: 0
+    skew: 0
+    perspective: 1
