@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/BasketBall/Scene/basketball.unity
-  isLoaded: 1
-  isActive: 1
