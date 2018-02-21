@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/* ****************************************************************************
+ * Product:    Basketball
+ * Developer:  Mark Kreitler - markkreitler@protonmail.com
+ * Company:    DefaultCompany
+ * Date:       20/02/2018 19:58
+ *****************************************************************************/
+ 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
