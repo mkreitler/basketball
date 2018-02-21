@@ -5,6 +5,21 @@ TagManager:
   serializedVersion: 2
   tags:
   - ball
+  - ui_text_secondary
+  - ui_value_panel
+  - ui_panel_back
+  - miss
+  - ui_button_back
+  - fence
+  - ui_text_menu
+  - ui_text_primary
+  - ui_text_results_header
+  - backboard
+  - ui_text_value
+  - ground
+  - rim
+  - ball_basic
+  - ui_touch_zone
   layers:
   - Default
   - TransparentFX
