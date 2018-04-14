@@ -8,6 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
+
 using Gamestrap;
 using UnityEngine.Networking;
 using com.thinkagaingames.engine;
@@ -30,8 +32,20 @@ namespace com.thinkagaingames.basketball {
 	}
 
 	public class BasketballDirector : GameDirector {
+		// Native Calls ///////////////////////////////////////////////////////////
+#if UNITY_IOS
+		[DllImport ("__Internal")]
+		private static extern void IOS_UnityDidCompleteSetup ();
+
+		[DllImport ("__Internal")]
+		private static extern void IOS_SetScore (int score);
+#endif
+
+		// Static Interface ///////////////////////////////////////////////////////
+
 		// Types and Constants ////////////////////////////////////////////////////
 		private const float END_OF_LEVEL_DELAY = 5f;
+		private const float AUTO_LAUNCH_DELAY = 0.1f;
 
 		private enum eGameMode {
 			TUTORIAL,
@@ -109,15 +123,29 @@ namespace com.thinkagaingames.basketball {
 		[SerializeField]
 		private GameObject UIbackground = null;
 
+		#pragma warning disable CS0414
 		[SerializeField]
 		private string baseResourceURI = null;
+
+		[SerializeField]
+		private string baseResourceURI_iOS = null;
+
+		[SerializeField]
+		private string baseResourceURI_android = null;
+		#pragma warning restore CS0414
 
 		// Interface //////////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
 
 		// Instance ---------------------------------------------------------------
+		public void StartResourceLoad(string arg) {
+			AdId = int.Parse(arg);
+			StartResourceLoad();
+		}
 
 		// Implementation /////////////////////////////////////////////////////////
+		private int AdId {get; set;}
+
 		private eGameMode GameMode {get; set;}
 
 		private int FlickStartCounter {get; set;}
@@ -259,6 +287,7 @@ namespace com.thinkagaingames.basketball {
 
 				// Show game over message and return to main menu.
 				UiDirector.Instance.StartTransition("BlackoutPanelsRoundEnd", true);
+				ReportScore();
 			}
 			else {
 				UiDirector.Instance.StartTransition("BlackoutLevelEnd", true);
@@ -308,6 +337,8 @@ namespace com.thinkagaingames.basketball {
 			StringTable.RegisterChunkEvaluator("GetTotalScore", GetTotalScore);
 			StringTable.RegisterChunkEvaluator("GetStageScore", GetStageScore);
 			StringTable.RegisterChunkEvaluator("GetResultsMessage", GetResultsMessage);
+
+			// StartCoroutine("AutoLaunch");
 		}
 
 		public override void OnStartGame() {
@@ -319,10 +350,29 @@ namespace com.thinkagaingames.basketball {
 			Switchboard.AddListener("PlayerMissed", OnPlayerMissed);
 			Switchboard.AddListener("initStage", InitStage);
 
-			HideTouchZone();			
+			HideTouchZone();	
+
+#if UNITY_IOS
+			IOS_UnityDidCompleteSetup();
+#endif
+				
+		}
+
+		protected void ReportScore() {
+			Switchboard.Broadcast("SetScore", Score);
+
+#if UNITY_IOS
+			IOS_SetScore(Score);
+#endif
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////
+		IEnumerator AutoLaunch() {
+			yield return new WaitForSeconds(AUTO_LAUNCH_DELAY);
+
+			StartResourceLoad("" + Random.Range(1, 3));
+		}
+
 		IEnumerator CountDownToMainMenu() {
 			yield return new WaitForSeconds(levelEndDelay);
 
@@ -331,8 +381,17 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		protected override IEnumerator LoadResources() {
-			string uri = baseResourceURI + "0" + Random.Range(1,4);
-			Debug.Log(">>> URI: " + uri.ToString());
+			#if UNITY_EDITOR
+				string uri = baseResourceURI;
+			#elif UNITY_IOS
+				string uri = baseResourceURI_iOS;
+			#elif UNITY_ANDROID
+				string uri = baseResourceURI_android;
+			#else
+				string uri = baseResourceURI;
+			#endif
+
+ 			uri += "0" + AdId;
 
 			using (UnityWebRequest uwr = UnityWebRequest.GetAssetBundle(uri))
 			{

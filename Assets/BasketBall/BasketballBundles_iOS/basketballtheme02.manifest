@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 353679586
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c85694630ac492a5846f79d641e9e781
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 74c44af5da66960b59e4978d14c728f8
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: c5c7b1bc6b229db43a8f98bd0e9669da, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/BasketBall/BasketballBundles_mac/Skin02/logo_main_page.png
+- Assets/BasketBall/BasketballBundles_android/basketballtheme01.manifest
+- Assets/BasketBall/BasketballBundles_android/BasketballBundles_android.manifest
+- Assets/BasketBall/BasketballBundles_android/basketballtheme03.manifest
+- Assets/BasketBall/BasketballBundles_mac/Skin02/logo_backboard.png
+- Assets/BasketBall/BasketballBundles_android/basketballtheme02.manifest
+- Assets/BasketBall/BasketballBundles_mac/Skin02/UiTheme.asset
+Dependencies: []

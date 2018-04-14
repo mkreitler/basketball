@@ -4,16 +4,30 @@
  * Company:    DefaultCompany
  * Date:       20/02/2018 11:21
  *****************************************************************************/
-// Create an AssetBundle for Windows.
+
 using UnityEngine;
 using UnityEditor;
 
 public class BuildAssetBundlesExample : MonoBehaviour
 {
-    [MenuItem("Assets/Build Asset Bundles")]
+    [MenuItem("Assets/Build Asset Bundles/Mac")]
     static void BuildABs()
     {
         // Put the bundles in a folder called "ABs" within the Assets folder.
-        BuildPipeline.BuildAssetBundles("Assets/Bundles", BuildAssetBundleOptions.None, BuildTarget.StandaloneOSXUniversal);
+        BuildPipeline.BuildAssetBundles("Assets/Basketball/BasketballBundles_mac", BuildAssetBundleOptions.None, BuildTarget.StandaloneOSXUniversal);
+    }
+
+    [MenuItem("Assets/Build Asset Bundles/iOS")]
+    static void BuildABsIOS()
+    {
+        // Put the bundles in a folder called "ABs" within the Assets folder.
+        BuildPipeline.BuildAssetBundles("Assets/Basketball/BasketballBundles_iOS", BuildAssetBundleOptions.None, BuildTarget.iOS);
+    }
+
+    [MenuItem("Assets/Build Asset Bundles/Android")]
+    static void BuildABsAndroid()
+    {
+        // Put the bundles in a folder called "ABs" within the Assets folder.
+        BuildPipeline.BuildAssetBundles("Assets/Basketball/BasketballBundles_android", BuildAssetBundleOptions.None, BuildTarget.Android);
     }
 }

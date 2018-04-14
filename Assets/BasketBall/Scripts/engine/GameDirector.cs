@@ -59,6 +59,10 @@ namespace com.thinkagaingames.engine {
 			return bAlreadyAdded;
 		}
 
+		public virtual void StartResourceLoad() {
+			StartCoroutine("LoadResources");
+		}
+
 		// Implementation /////////////////////////////////////////////////////////
 
 		// Interfaces /////////////////////////////////////////////////////////////
@@ -82,7 +86,6 @@ namespace com.thinkagaingames.engine {
 			Assert.That(cameraSplash != null, "Splash camera not found!", gameObject);
 
 			Assert.That(gameObject.activeSelf, "GameObject not active!", gameObject);
-			StartCoroutine("LoadResources");
 		}
 
 		// Coroutines /////////////////////////////////////////////////////////////

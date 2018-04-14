@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 1633504474
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7eb7f63592d12fd6661fe4c5111e25ab
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8ef6eab2211728bad78c1a245df72d00
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: c5c7b1bc6b229db43a8f98bd0e9669da, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/BasketBall/Textures/ui_box.png
+- Assets/BasketBall/Textures/ui_pointLeft.png
+- Assets/BasketBall/BasketballBundles_mac/Skin01/logo_main_page.png
+- Assets/BasketBall/Textures/ui_white1x1.png
+- Assets/BasketBall/BasketballBundles_mac/Skin01/logo_backboard.png
+- Assets/BasketBall/Textures/ui_black1x1.png
+- Assets/BasketBall/Textures/blockingHand.png
+- Assets/BasketBall/Textures/emilio20.jpg
+- Assets/BasketBall/Textures/icons/icon_180.png
+- Assets/BasketBall/Textures/ui_playerYellow.png
+- Assets/BasketBall/Textures/ui_ring.png
+- Assets/BasketBall/Textures/Ball1.png
+- Assets/BasketBall/Textures/background.png
+- Assets/BasketBall/Textures/green32x32.png
+- Assets/BasketBall/Textures/ui_playerRed.png
+- Assets/BasketBall/BasketballBundles_mac/Skin01/UiTheme.asset
+Dependencies: []

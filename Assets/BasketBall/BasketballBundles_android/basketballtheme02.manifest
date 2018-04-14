@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 3358657994
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8fbdf3ca96d47cc875368ca8bad6ffb2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 8ef6eab2211728bad78c1a245df72d00
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: c5c7b1bc6b229db43a8f98bd0e9669da, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/BasketBall/BasketballBundles_mac/Skin02/logo_main_page.png
+- Assets/BasketBall/BasketballBundles_mac/Skin02/logo_backboard.png
+- Assets/BasketBall/BasketballBundles_mac/Skin02/UiTheme.asset
+Dependencies: []
