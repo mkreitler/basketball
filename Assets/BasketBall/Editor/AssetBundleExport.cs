@@ -14,7 +14,7 @@ public class BuildAssetBundlesExample : MonoBehaviour
     static void BuildABs()
     {
         // Put the bundles in a folder called "ABs" within the Assets folder.
-        BuildPipeline.BuildAssetBundles("Assets/Basketball/BasketballBundles_mac", BuildAssetBundleOptions.None, BuildTarget.StandaloneOSXUniversal);
+        BuildPipeline.BuildAssetBundles("Assets/Basketball/BasketballBundles_mac", BuildAssetBundleOptions.None, BuildTarget.StandaloneOSX);
     }
 
     [MenuItem("Assets/Build Asset Bundles/iOS")]

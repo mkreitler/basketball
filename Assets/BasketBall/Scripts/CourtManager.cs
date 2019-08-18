@@ -59,8 +59,8 @@ namespace com.thinkagaingames.basketball {
 			for (int i=0; i<balls.Count; ++i) {
 				BallBasic newBall = balls[i].GetComponent<BallBasic>();
 				Assert.That(newBall != null, "Instantiated invalid ball!", gameObject);
-				newBall.transform.localPosition = Vector3.zero;
-				newBall.MakeKinematic();
+				newBall.transform.position = ballDocks[i].gameObject.transform.position;
+				newBall.StopPhysics();
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace com.thinkagaingames.basketball {
 
 				BallBasic newBall = balls[i].GetComponent<BallBasic>();
 				Assert.That(newBall != null, "Instantiated invalid ball!", gameObject);
-				newBall.MakeKinematic();
+				newBall.StopPhysics();
 			}
 
 			CurrentBallIndex = -1;

@@ -314,6 +314,10 @@ namespace com.thinkagaingames.basketball {
 		protected override void Start() {
 			base.Start();
 
+			if (Screen.orientation != ScreenOrientation.Portrait && Screen.orientation != ScreenOrientation.PortraitUpsideDown) {
+				Screen.orientation = ScreenOrientation.Portrait;
+			}
+
 			Assert.That(cameraWorld != null, "World camera not found!", gameObject);
 			Assert.That(cameraUI != null, "UI camera not found!", gameObject);
 			Assert.That(cameraSplash != null, "Splash camera not found!", gameObject);
@@ -338,7 +342,7 @@ namespace com.thinkagaingames.basketball {
 			StringTable.RegisterChunkEvaluator("GetStageScore", GetStageScore);
 			StringTable.RegisterChunkEvaluator("GetResultsMessage", GetResultsMessage);
 
-			// StartCoroutine("AutoLaunch");
+			StartCoroutine("AutoLaunch");
 		}
 
 		public override void OnStartGame() {
@@ -353,16 +357,22 @@ namespace com.thinkagaingames.basketball {
 			HideTouchZone();	
 
 #if UNITY_IOS
+	#if UNITY_EDITOR
+	#else
 			IOS_UnityDidCompleteSetup();
+	#endif
 #endif
-				
 		}
 
 		protected void ReportScore() {
 			Switchboard.Broadcast("SetScore", Score);
+			CurrentStageIndex = 0;
 
 #if UNITY_IOS
+	#if UNITY_EDITOR
+	#else
 			IOS_SetScore(Score);
+	#endif
 #endif
 		}
 
@@ -381,42 +391,47 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		protected override IEnumerator LoadResources() {
-			#if UNITY_EDITOR
-				string uri = baseResourceURI;
-			#elif UNITY_IOS
-				string uri = baseResourceURI_iOS;
-			#elif UNITY_ANDROID
-				string uri = baseResourceURI_android;
-			#else
-				string uri = baseResourceURI;
-			#endif
+			Switchboard.Broadcast("Set_logo_main_page", null);
+			Switchboard.Broadcast("Set_logo_backboard", null);
 
- 			uri += "0" + AdId;
+			// Re-enable the code below to use downloadable skins.
 
-			using (UnityWebRequest uwr = UnityWebRequest.GetAssetBundle(uri))
-			{
-				yield return uwr.SendWebRequest();
+			// #if UNITY_EDITOR
+			// 	string uri = baseResourceURI;
+			// #elif UNITY_IOS
+			// 	string uri = baseResourceURI_iOS;
+			// #elif UNITY_ANDROID
+			// 	string uri = baseResourceURI_android;
+			// #else
+			// 	string uri = baseResourceURI;
+			// #endif
 
-				if (uwr.isNetworkError || uwr.isHttpError)
-				{
-					Debug.Log(uwr.error);
-				}
-				else
-				{
-					// Get downloaded asset bundle
-					AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(uwr);
-					Sprite mainMenuLogo = bundle.LoadAsset<Sprite>("logo_main_page");
-					Sprite backboardLogo = bundle.LoadAsset<Sprite>("logo_backboard");
-					GamestrapTheme uiTheme = bundle.LoadAsset<GamestrapTheme>("UiTheme");
+ 			// uri += "0" + AdId;
 
-					if (uiTheme != null) {
-						uiTheme.ApplyTheme();
-					}
+			// using (UnityWebRequest uwr = UnityWebRequestAssetBundle.GetAssetBundle(uri))
+			// {
+			// 	yield return uwr.SendWebRequest();
 
-					Switchboard.Broadcast("Set_logo_main_page", mainMenuLogo);
-					Switchboard.Broadcast("Set_logo_backboard", backboardLogo);
-				}
-			}
+			// 	if (uwr.isNetworkError || uwr.isHttpError)
+			// 	{
+			// 		Debug.Log(uwr.error);
+			// 	}
+			// 	else
+			// 	{
+			// 		// Get downloaded asset bundle
+			// 		AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(uwr);
+			// 		Sprite mainMenuLogo = bundle.LoadAsset<Sprite>("logo_main_page");
+			// 		Sprite backboardLogo = bundle.LoadAsset<Sprite>("logo_backboard");
+			// 		GamestrapTheme uiTheme = bundle.LoadAsset<GamestrapTheme>("UiTheme");
+
+			// 		if (uiTheme != null) {
+			// 			uiTheme.ApplyTheme();
+			// 		}
+
+			// 		Switchboard.Broadcast("Set_logo_main_page", mainMenuLogo);
+			// 		Switchboard.Broadcast("Set_logo_backboard", backboardLogo);
+			// 	}
+			// }
 
 			yield return base.LoadResources();
 		}
@@ -432,6 +447,8 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		public void MainMenuStartTutorial() {
+			InitializeRound();
+			
 			StageParameters stageParams = GetStageParameters("tutorial");
 			Switchboard.Broadcast("InitStage", stageParams);
 			

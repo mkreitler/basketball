@@ -53,6 +53,16 @@ namespace com.thinkagaingames.engine {
 		[SerializeField]
 		private float transitionTime = DEFAULT_TRANSITION_TIME;
 
+		// If doPlayDead is 'true', this item will skip all transition logic, but
+		// will report itself as having completed its transition upon its first
+		// update.
+		//
+		// Use this flag to "turn off" existing transition panels without altering
+		// any transition logic or changing the members of the containing UIPanel
+		// list.
+		[SerializeField]
+		private bool doPlayDead = false;
+
 		// Interface //////////////////////////////////////////////////////////////
 		// Static -----------------------------------------------------------------
 
@@ -99,8 +109,13 @@ namespace com.thinkagaingames.engine {
 			TransitionParam += Time.fixedDeltaTime / transitionTime;
 			TransitionParam = Mathf.Min(TransitionParam, 1f);
 
-			for (int i=0; i<transitionInfo.Count; ++i) {
-				ResolveProgress(transitionInfo[i], TransitionParam);
+			if (doPlayDead) {
+				TransitionParam = 1f;
+			}
+			else {
+				for (int i=0; i<transitionInfo.Count; ++i) {
+					ResolveProgress(transitionInfo[i], TransitionParam);
+				}
 			}
 
 			if (TransitionParam == 1f) {
@@ -114,8 +129,13 @@ namespace com.thinkagaingames.engine {
 			TransitionParam -= Time.fixedDeltaTime / transitionTime;
 			TransitionParam = Mathf.Max(0f, TransitionParam);
 
-			for (int i=0; i<transitionInfo.Count; ++i) {
-				ResolveProgress(transitionInfo[i], TransitionParam);
+			if (doPlayDead) {
+				TransitionParam = 0;
+			}
+			else {
+				for (int i=0; i<transitionInfo.Count; ++i) {
+					ResolveProgress(transitionInfo[i], TransitionParam);
+				}
 			}
 
 			if (TransitionParam == 0f) {

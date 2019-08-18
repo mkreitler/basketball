@@ -27,7 +27,15 @@ namespace com.thinkagaingames.engine {
 		private eSKINNER_TYPE type = eSKINNER_TYPE.IMAGE;
 
 		// Interface //////////////////////////////////////////////////////////////
+		public bool WantsVisible {
+			get {
+				return wantsVisible;
+			}
+		}
+
 		// Implementation /////////////////////////////////////////////////////////
+		protected bool wantsVisible = false;
+
 		// Interfaces /////////////////////////////////////////////////////////////
 		protected override void Start() {
 			base.Start();
@@ -39,30 +47,47 @@ namespace com.thinkagaingames.engine {
 		// Coroutines /////////////////////////////////////////////////////////////
 		// Message Handlers ///////////////////////////////////////////////////////
 		public void OnTriggered(object objResource) {
+			wantsVisible = true;
+
 			switch(type) {
 				case eSKINNER_TYPE.IMAGE: {
-						Sprite sprite = objResource as Sprite;
-						Assert.That(sprite != null, "Invalid skinning resource (image)!", gameObject);
-
 						Image image = gameObject.GetComponent<Image>();
 						Assert.That(image != null, "Invalid skin target (image)!", gameObject);
 
-						image.sprite = sprite;
+						Sprite sprite = objResource as Sprite;
+
+						if (sprite == null) {
+							Renderer renderer = image.GetComponent<Renderer>();
+							if (renderer != null) {
+								renderer.enabled = false;
+								image.sprite = null;
+								wantsVisible = false;
+							}
+						}
+						else {
+							image.sprite = sprite;
+						}
 					break;
 				}
 
 				case eSKINNER_TYPE.SPRITE: {
-						Sprite sprite = objResource as Sprite;
-						Assert.That(sprite != null, "Invalid skinning resource (sprite)!", gameObject);
-
 						SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 						Assert.That(spriteRenderer != null, "No spriteRenderer found!", gameObject);
 
-						spriteRenderer.sprite = sprite;
-						Vector2 spriteSize = spriteRenderer.size;
-						spriteSize.x = 1;
-						spriteSize.y = 1;
-						spriteRenderer.size = spriteSize;
+						Sprite sprite = objResource as Sprite;
+
+						if (sprite == null) {
+							spriteRenderer.enabled = false;
+							spriteRenderer.sprite = null;
+							wantsVisible = false;
+						}
+						else {
+							spriteRenderer.sprite = sprite;
+							Vector2 spriteSize = spriteRenderer.size;
+							spriteSize.x = 1;
+							spriteSize.y = 1;
+							spriteRenderer.size = spriteSize;
+						}
 					break;
 				}
 
