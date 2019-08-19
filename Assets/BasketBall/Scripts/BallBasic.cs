@@ -154,6 +154,9 @@ namespace com.thinkagaingames.basketball {
 		}
 
 		protected virtual void Update() {
+			if (Armed && !Renderer.isVisible && !EnteredGoal) {
+				Missed();
+			}
 		}
 
 		protected virtual void FixedUpdate() {
@@ -177,11 +180,15 @@ namespace com.thinkagaingames.basketball {
 
 				if (Armed) {
 					if (otherTag == "miss") {
-						Armed = false;
-						Switchboard.Broadcast("PlayerMissed", null);
+						Missed();
 					}
 				}
 			}
+		}
+
+		protected void Missed() {
+			Armed = false;
+			Switchboard.Broadcast("PlayerMissed", null);
 		}
 
 		protected void OnCollisionEnter(Collision collision) {

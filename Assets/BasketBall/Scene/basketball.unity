@@ -14847,7 +14847,7 @@ MonoBehaviour:
   timeText: {fileID: 1963261480}
   streakText: {fileID: 1880535514}
   levelEndDelay: 3
-  maxStreak: 5
+  maxStreak: 99
   stages:
   - name: Tutorial
     touchZone: left

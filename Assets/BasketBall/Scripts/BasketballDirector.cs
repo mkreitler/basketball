@@ -100,7 +100,7 @@ namespace com.thinkagaingames.basketball {
 		private float levelEndDelay = 3f;
 
 		[SerializeField]
-		private int maxStreak = 5;
+		private int maxStreak = 99;
 
 		[SerializeField]
 		private List<StageParameters> stages = null;
